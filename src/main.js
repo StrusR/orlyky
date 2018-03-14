@@ -7,10 +7,12 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 var RegLog = require("./components/RegLog/RegLog.vue");
+var Home = require("./components/Home/Home.vue");
 
 const router = new VueRouter({
   routes: [
-    { path: '/RegLog', component: RegLog }
+    { path: '/RegLog', component: RegLog, },
+    { path: '/', component: Home, }
     // { path: '*', component: NotFound }
   ],
   scrollBehavior(to, from, savedPosition) {
