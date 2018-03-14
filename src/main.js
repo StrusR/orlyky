@@ -7,10 +7,12 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 var RegLog = require("./components/RegLog/RegLog.vue");
+var Orlyk = require("./components/Orlyk/Orlyk.vue");
 
 const router = new VueRouter({
   routes: [
-    { path: '/RegLog', component: RegLog }
+    { path: '/RegLog', component: RegLog },
+    { path: '/Orlyk', component: Orlyk }
     // { path: '*', component: NotFound }
   ],
   scrollBehavior(to, from, savedPosition) {

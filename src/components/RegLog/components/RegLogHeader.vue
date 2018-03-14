@@ -11,7 +11,7 @@
 </template>
 
 <script>
-var LogoComponent = require("../../globals/logo.vue");
+var LogoComponent = require("../../globals/Logo.vue");
 
 var RegLogHeaderData = {
   login: "",

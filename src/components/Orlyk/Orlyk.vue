@@ -5,7 +5,7 @@
 </template>
 
 <script>
-var Header = require("../globals/header.vue");
+var Header = require("../globals/Header/Header.vue");
 
 export default {
   name: "Orlyk",
