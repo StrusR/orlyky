@@ -22,13 +22,9 @@ export default {
 <style scoped>
 .Links a {
   float: right;
-
   color: white;
-
   cursor: pointer;
-
   font-size: 1.3em;
-
   margin-left: 1%;
 }
 

@@ -29,7 +29,7 @@
             <label v-if="PasswordLabel" for="Password" :title="PasswordLabel">!</label>
         </div>
         <div class="inputBlock">
-            <input v-model.trim="RePasswordlVal" autocomplete="on" name="RePassword" id="RePassword" type="password"  placeholder="Повторіть пароль" :class="{checkNotPassed: RePasswordLabel}">
+            <input v-model.trim="RePasswordVal" autocomplete="on" name="RePassword" id="RePassword" type="password"  placeholder="Повторіть пароль" :class="{checkNotPassed: RePasswordLabel}">
             <label v-if="RePasswordLabel" for="RePassword" :title="RePasswordLabel">!</label>
         </div>
         <div>
@@ -65,8 +65,153 @@ export default {
     return RegLogArticleData;
   },
   methods: {
+    capitalizeFirstLetter: function(string) {
+      string = string.toLowerCase();
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    },
     register: function() {
-      alert("register");
+      var regular_email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var regular_name_surname_patronymic = /^[йцукенгшщзхїфівапролджєячсмитьбюЙЦУКЕНГШЩЗХЇФІВАПРОЛДЖЄЯЧСМИТЬБЮ]+$/;
+      var regular_phone = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){12}(\s*)?$/;
+      var regular_password = /(?=.*[0-9])(?=.*[_a-zA-ZйцукенгшщзхїфівапролджєячсмитьбюЙЦУКЕНГШЩЗХЇФІВАПРОЛДЖЄЯЧСМИТЬБЮ])/;
+
+      var email = false;
+      var name = false;
+      var surname = false;
+      var patronymic = false;
+      var phone = false;
+      var password = false;
+      var rePassword = false;
+
+      this.NameVal = this.capitalizeFirstLetter(this.NameVal);
+      this.SurnameVal = this.capitalizeFirstLetter(this.SurnameVal);
+      this.PatronymicVal = this.capitalizeFirstLetter(this.PatronymicVal);
+
+      if (this.EmailVal.length < 1) {
+        this.EmailLabel =
+          "Email потрібно ввести для подальшої можливості входу";
+      } else if (regular_email.test(this.EmailVal) == false) {
+        this.EmailLabel = "Введіть дійсний Email";
+      } else {
+        email = true;
+        this.EmailLabel = false;
+      }
+      // ********************************************************************************************
+      if (this.NameVal.length < 1) {
+        this.NameLabel = "Введіть своє ім'я";
+      } else if (regular_name_surname_patronymic.test(this.NameVal) == false) {
+        this.NameLabel = "Ім'я вводити лише українськими літерами";
+      } else {
+        name = true;
+        this.NameLabel = false;
+      }
+      // ********************************************************************************************
+      if (this.SurnameVal.length < 1) {
+        this.SurnameLabel = "Введіть своє прізвище";
+      } else if (
+        regular_name_surname_patronymic.test(this.SurnameVal) == false
+      ) {
+        this.SurnameLabel = "Прізвище вводити лише українськими літерами";
+      } else {
+        surname = true;
+        this.SurnameLabel = false;
+      }
+      // ********************************************************************************************
+      if (this.PatronymicVal.length < 1) {
+        this.PatronymicLabel = "Введіть своє ім'я по батькові";
+      } else if (
+        regular_name_surname_patronymic.test(this.PatronymicVal) == false
+      ) {
+        this.PatronymicLabel =
+          "Ім'я по батькові вводити лише українськими літерами";
+      } else {
+        patronymic = true;
+        this.PatronymicLabel = false;
+      }
+      // ********************************************************************************************
+      if (this.PhonelVal.length < 1) {
+        this.PhoneLabel =
+          "Вкажіть свій номер телефону, щоб ми могли з вами зв'язатися";
+      } else if (regular_phone.test(this.PhonelVal) == false) {
+        this.PhoneLabel = "Введіть дійсний номер телефону";
+      } else {
+        phone = true;
+        this.PhoneLabel = false;
+      }
+      // ********************************************************************************************
+      if (this.PasswordVal.length < 1) {
+        this.PasswordLabel =
+          "Цей парроль ви використовуватимете для подальшого входу в аккаунт";
+      } else if (this.PasswordVal.length < 8) {
+        this.PasswordLabel = "Пароль має містити не менше 8 символів";
+      } else if (regular_password.test(this.PasswordVal) == false) {
+        this.PasswordLabel =
+          "Пароль обов'язково має місти одну велику букву одну маленьку одну 1 цифру";
+      } else {
+        password = true;
+        this.PasswordLabel = false;
+      }
+      // ********************************************************************************************
+      if (this.RePasswordVal.length < 1) {
+        this.RePasswordLabel =
+          "Повторіть пароль, щоб переконатись, що ви не помилились";
+      } else if (this.PasswordVal != this.RePasswordVal) {
+        this.RePasswordLabel = "Паролі не співпадають";
+      } else {
+        rePassword = true;
+        this.RePasswordLabel = false;
+      }
+      // ********************************************************************************************
+      if (
+        email == true &&
+        name == true &&
+        surname == true &&
+        patronymic == true &&
+        phone == true &&
+        password == true &&
+        rePassword == true
+      ) {
+        $.ajax({
+          url: "../orlyky/server/set/register.php",
+          type: "POST",
+          dataType: "json",
+          data: {
+            email: this.inputs.regEmail.val,
+            name: this.inputs.regName.val,
+            surname: this.inputs.regSurname.val,
+            patronymic: this.inputs.regPatronymic.val,
+            phone: this.inputs.regPhone.val,
+            password: this.inputs.regPassword.val,
+            rePassword: this.inputs.regRePassword.val
+          },
+
+          success: function(data) {
+            if (!data.errorRegEx) {
+              if (data.errorEmail) {
+                registerData.inputs.regEmail.label =
+                  "Цей Email уже зареєстроований";
+              }
+
+              if (data.errorPhone) {
+                registerData.inputs.regPhone.label =
+                  "Цей номер телефону уже зареєстроований";
+              }
+
+              if (data.id) {
+                document.cookie = "orlykId=" + data.id;
+
+                window.location.reload();
+              }
+            } else {
+              alert("errorRegEx");
+            }
+          },
+
+          error: function() {
+            alert("error");
+          }
+        });
+      }
     }
   }
 };
