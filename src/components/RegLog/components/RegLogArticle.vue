@@ -176,35 +176,35 @@ export default {
           type: "POST",
           dataType: "json",
           data: {
-            email: this.inputs.regEmail.val,
-            name: this.inputs.regName.val,
-            surname: this.inputs.regSurname.val,
-            patronymic: this.inputs.regPatronymic.val,
-            phone: this.inputs.regPhone.val,
-            password: this.inputs.regPassword.val,
-            rePassword: this.inputs.regRePassword.val
+            email: this.EmailVal,
+            name: this.NameVal,
+            surname: this.SurnameVal,
+            patronymic: this.PatronymicVal,
+            phone: this.PhonelVal,
+            password: this.PasswordVal,
+            rePassword: this.RePasswordVal
           },
-
           success: function(data) {
-            if (!data.errorRegEx) {
-              if (data.errorEmail) {
-                registerData.inputs.regEmail.label =
-                  "Цей Email уже зареєстроований";
-              }
+            // if (!data.errorRegEx) {
+            //   if (data.errorEmail) {
+            //     RegLogArticleData.inputs.regEmail.label =
+            //       "Цей Email уже зареєстроований";
+            //   }
 
-              if (data.errorPhone) {
-                registerData.inputs.regPhone.label =
-                  "Цей номер телефону уже зареєстроований";
-              }
+            //   if (data.errorPhone) {
+            //     RegLogArticleData.inputs.regPhone.label =
+            //       "Цей номер телефону уже зареєстроований";
+            //   }
 
-              if (data.id) {
-                document.cookie = "orlykId=" + data.id;
+            //   if (data.id) {
+            //     document.cookie = "orlykId=" + data.id;
 
-                window.location.reload();
-              }
-            } else {
-              alert("errorRegEx");
-            }
+            //     window.location.reload();
+            //   }
+            // } else {
+            //   alert("errorRegEx");
+            // }
+            alert("success");
           },
 
           error: function() {

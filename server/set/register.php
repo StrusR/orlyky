@@ -30,36 +30,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $initials = $surname.' '.$name.' '.$patronymic;
 
     $SuccessReturn = array();
-
+    // ********************************************************************************************
     if (preg_match($regular_email, $email)) {
         $auditEmail = true;
     };
-
+    // ********************************************************************************************
     if (preg_match($regular_name_surname_patronymic, $name)) {
         $auditName = true;
     };
-
+    // ********************************************************************************************
     if (preg_match($regular_name_surname_patronymic, $surname)) {
         $auditSurname = true;
     };
-
+    // ********************************************************************************************
     if (preg_match($regular_name_surname_patronymic, $patronymic)) {
         $auditPatronymic = true;
     };
-
+    // ********************************************************************************************
     if (preg_match($regular_phone, $phone)) {
         $auditPhone = true;
     };
-
+    // ********************************************************************************************
     if (strlen($password) > 7 && preg_match($regular_password, $password)) {
         $auditPassword = true;
     };
-
+    // ********************************************************************************************
     if ($password === $rePassword) {
         $auditRePassword = true;
         $password = md5($password);
     };
-
+    // ********************************************************************************************
     $SuccessReturn['errorRegEx'] = true;
     $SuccessReturn['id'] = false;
     $SuccessReturn['errorEmail'] = false;
@@ -68,6 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     if ($auditEmail == true && $auditName == true && $auditSurname == true && $auditPatronymic == true && $auditPhone == true && $auditPassword == true && $auditRePassword == true) {
         $SuccessReturn['errorRegEx'] = false;
 
+        $data_server = $mysqli -> query("SELECT `id` FROM `users` WHERE `email` = '".$email."'");
         if ($data_server->num_rows > 0) {
             $SuccessReturn['errorEmail'] = true;
         }
@@ -89,7 +90,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
             $data_server = $mysqli -> query("SELECT `id` FROM `users` WHERE `email` = '".$email."'");
             while (($all = $data_server->fetch_assoc()) != false) {
+                session_start();
+                $_SESSION['id'] = $all['id'];
                 $SuccessReturn['id'] = $all['id'];
+                session_write_close();
             };
         }
     }
