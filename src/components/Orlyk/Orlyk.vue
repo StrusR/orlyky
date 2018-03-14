@@ -1,19 +1,16 @@
 <template>
-  <div id="RegLog">
+  <div id="Orlyk">
       <section-header></section-header>
-      <section-article></section-article>
   </div>
 </template>
 
 <script>
-var RegLogHeader = require("../RegLog/components/RegLogHeader.vue");
-var RegLogArticle = require("../RegLog/components/RegLogArticle.vue");
+var RegLogHeader = require("../globals/header.vue");
 
 export default {
-  name: "RegLog",
+  name: "Orlyk",
   components: {
-    "section-header": RegLogHeader,
-    "section-article": RegLogArticle
+    "section-header": RegLogHeader
   }
 };
 </script>
