@@ -1,5 +1,5 @@
 <template>
-  <div id="RegLogHeader">
+  <header id="RegLogHeader">
     <section-logo></section-logo>
     <form id="loginComp" class="content">
         <p class="message" v-if="message">{{message}}</p>
@@ -7,7 +7,7 @@
         <input type="password" placeholder="Пароль" v-model="password">
         <input type="button" @click="SignIn" value="Увійти">
     </form>
-  </div>
+  </header>
 </template>
 
 <script>
