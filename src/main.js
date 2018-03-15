@@ -9,10 +9,10 @@ Vue.use(VueRouter)
 var RegLog = require("./components/RegLog/RegLog.vue");
 var Orlyk = require("./components/Orlyk/Orlyk.vue");
 
-const router = new VueRouter({
+var router = new VueRouter({
   routes: [
-    { path: '/RegLog', component: RegLog },
-    { path: '/Orlyk', component: Orlyk }
+    { path: '/RegLog', name: 'RegLog', component: RegLog },
+    { path: '/Orlyk/:id', name: 'Orlyk', component: Orlyk }
     // { path: '*', component: NotFound }
   ],
   scrollBehavior(to, from, savedPosition) {
@@ -20,7 +20,7 @@ const router = new VueRouter({
   }
 });
 
-new Vue({
+var app = new Vue({
   el: '#app',
   router: router
 })

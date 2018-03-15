@@ -77,7 +77,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         if ($data_server->num_rows > 0) {
             $SuccessReturn['errorPhone'] = true;
         }
-
         if (!$SuccessReturn['errorEmail'] && !$SuccessReturn['errorPhone']) {
             $mysqli -> query("INSERT INTO `users` (`email`, `name`, `surname`, `patronymic`, `phone`, `password`, `regDate`, `accessRights`) VALUES ('".$email."', '".$name."', '".$surname."', '".$patronymic."', '".$phone."', '".$password."', '".$date."', 'statement')");
             $mysqli -> query("INSERT INTO `news` (`voting`, `topic`, `description`, `image`, `toSpread`, `date`, `author`) VALUES ('".$date.".json', 'Нова реєстрація', '".$initials." зареєструвався на сайті. Якщо хоч один учасник з проводу підтвердить цю заявку, учасник буде зареєстрований!', 'false', 'command', '".$date."', 'false')");

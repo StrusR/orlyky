@@ -57,12 +57,21 @@ var RegLogArticleData = {
   PatronymicLabel: false,
   PhoneLabel: false,
   PasswordLabel: false,
-  RePasswordLabel: false
+  RePasswordLabel: false,
+
+  id: false
 };
 export default {
   name: "RegLogArticle",
   data: function() {
     return RegLogArticleData;
+  },
+  watch: {
+    id: function() {
+      if (this.id) {
+        this.$router.push({ name: "Orlyk", params: { id: this.id } });
+      }
+    }
   },
   methods: {
     capitalizeFirstLetter: function(string) {
@@ -185,28 +194,21 @@ export default {
             rePassword: this.RePasswordVal
           },
           success: function(data) {
-            // if (!data.errorRegEx) {
-            //   if (data.errorEmail) {
-            //     RegLogArticleData.inputs.regEmail.label =
-            //       "Цей Email уже зареєстроований";
-            //   }
-
-            //   if (data.errorPhone) {
-            //     RegLogArticleData.inputs.regPhone.label =
-            //       "Цей номер телефону уже зареєстроований";
-            //   }
-
-            //   if (data.id) {
-            //     document.cookie = "orlykId=" + data.id;
-
-            //     window.location.reload();
-            //   }
-            // } else {
-            //   alert("errorRegEx");
-            // }
-            alert("success");
+            if (!data.errorRegEx) {
+              if (data.errorEmail) {
+                RegLogArticleData.EmailLabel = "Цей Email уже зареєстроований";
+              }
+              if (data.errorPhone) {
+                RegLogArticleData.PhoneLabel =
+                  "Цей номер телефону уже зареєстроований";
+              }
+              if (data.id) {
+                RegLogArticleData.id = data.id;
+              }
+            } else {
+              alert("errorRegEx");
+            }
           },
-
           error: function() {
             alert("error");
           }
