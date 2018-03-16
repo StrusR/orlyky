@@ -12,7 +12,22 @@ var Orlyk = require("./components/Orlyk/Orlyk.vue");
 var router = new VueRouter({
   routes: [
     { path: '/RegLog', name: 'RegLog', component: RegLog },
-    { path: '/Orlyk/:id', name: 'Orlyk', component: Orlyk }
+    {
+      path: '/', name: 'Orlyk', component: Orlyk, children: [
+        {
+          // при совпадении пути с шаблоном /user/:id/profile
+          // в <router-view> компонента User будет отображён UserProfile
+          path: 'profile/:id',
+          component: Orlyk
+        },
+        // {
+        //   // при совпадении с шаблоном /user/news
+        //   // в <router-view> компонента User будет отображён UserPosts
+        //   path: 'news',
+        //   component: news
+        // }
+      ]
+    }
     // { path: '*', component: NotFound }
   ],
   scrollBehavior(to, from, savedPosition) {

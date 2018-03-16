@@ -12,6 +12,7 @@ var Article = require("../Orlyk/components//Article/Article.vue");
 var OrlykData = {
   myId: false,
   urlId: "",
+  page: true,
   myAccessRights: "",
   orlData: ""
 };
@@ -39,7 +40,16 @@ export default {
     orlData: function() {
       if (this.orlData) {
       } else {
-        this.$router.push({ name: "Orlyk", params: { id: this.myId } });
+        this.$router.push({
+          path: `/profile/${this.myId}`
+        });
+      }
+    },
+    page: function() {
+      if (this.page == false) {
+        this.$router.push({
+          path: `/profile/${this.myId}`
+        });
       }
     },
     $route(to, from) {
@@ -52,6 +62,7 @@ export default {
   methods: {
     updateOrlyk: function() {
       OrlykData.urlId = this.$route.params.id;
+      OrlykData.page = true;
       $.ajax({
         url: "../orlyky/server/get/orlyk.php",
         type: "POST",
@@ -72,6 +83,8 @@ export default {
             } else {
               OrlykData.orlData = false;
             }
+          } else {
+            OrlykData.page = false;
           }
         },
 
