@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $SuccessReturn = array();
 
     if ($myId) {
-        $SuccessReturn['myId'] = true;
+        $SuccessReturn['myId'] = $myId;
         $data_server = $mysqli -> query("SELECT `accessRights` FROM `users` WHERE `id` = '".$myId."'");
         while (($all = $data_server->fetch_assoc()) != false) {
             $myAccessRights = $all['accessRights'];

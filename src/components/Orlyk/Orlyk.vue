@@ -1,16 +1,16 @@
 <template>
   <div id="Orlyk">
       <section-header></section-header>
-      <section-article v-if="orlData" :orlData="orlData"></section-article>
+      <section-article v-if="orlData" :orlData="orlData" :myId="myId"></section-article>
   </div>
 </template>
 
 <script>
 var Header = require("../globals/Header/Header.vue");
-var Article = require("../Orlyk/components/Article.vue");
+var Article = require("../Orlyk/components//Article/Article.vue");
 
 var OrlykData = {
-  myId: true,
+  myId: false,
   urlId: "",
   myAccessRights: "",
   orlData: ""
@@ -61,19 +61,16 @@ export default {
         },
 
         success: function(data) {
-          if (data.myId == false) {
-            OrlykData.myId = false;
-          } else {
-            if (data.myAccessRights == "statement") {
-              OrlykData.myAccessRights = data.myAccessRights;
-            } else if (data.page == true) {
-              if (data.myAccessRights == "command") {
-                OrlykData.orlData = data;
-              } else if (data.accessRights != "statement") {
-                OrlykData.orlData = data;
-              } else {
-                OrlykData.orlData = false;
-              }
+          OrlykData.myId = data.myId;
+          if (data.myAccessRights == "statement") {
+            OrlykData.myAccessRights = data.myAccessRights;
+          } else if (data.page == true) {
+            if (data.myAccessRights == "command") {
+              OrlykData.orlData = data;
+            } else if (data.accessRights != "statement") {
+              OrlykData.orlData = data;
+            } else {
+              OrlykData.orlData = false;
             }
           }
         },

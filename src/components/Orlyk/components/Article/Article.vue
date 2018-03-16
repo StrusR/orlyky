@@ -3,16 +3,16 @@
         <div class="leftCol">
             <div class="baner">
                 <p class="int">{{orlData.surname}} {{orlData.name}} {{orlData.patronymic}}</p>
-                <a @click="Settings" v-if="myAccessRights=='command' && id!=myId" class="settings"></a>
+                <a @click="Settings" v-if="orlData.myAccessRights=='command' && $route.params.id!=myId" class="settings"></a>
             </div>
             <div class="content">
                 <div class="row">
                     <div class="leftCol">Email:</div>
-                    <div class="rightCol">{{email}}</div>
+                    <div class="rightCol">{{orlData.email}}</div>
                 </div>
                 <div class="row">
                     <div class="leftCol">Номер телефону:</div>
-                    <div class="rightCol">+{{phone}}</div>
+                    <div class="rightCol">+{{orlData.phone}}</div>
                 </div>
             </div>
         </div>
@@ -20,27 +20,15 @@
 </template>
 
 <script>
-var OrlykArticleData = {
-  id: "",
-  name: "",
-  surname: "",
-  patronymic: "",
-  email: "",
-  phone: "",
-  myId: "",
-  myAccessRights: ""
-};
 export default {
   name: "Article",
-  props: ["orlData"],
-  data: function() {
-    return OrlykArticleData;
-  },
+  props: ["orlData", "myId"],
   methods: {
     Settings: function() {
       //   updateOrlykSettings(this.id);
     }
-  }
+  },
+  components: {}
 };
 </script>
 
@@ -74,7 +62,7 @@ export default {
   position: absolute;
   top: 10px;
   right: 10px;
-  background-image: url("../img/settings.png");
+  background-image: url("dist/img/settings.png");
   background-size: 20px 20px;
   width: 20px;
   height: 20px;
