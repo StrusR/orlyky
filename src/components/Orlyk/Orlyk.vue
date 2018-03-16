@@ -40,16 +40,12 @@ export default {
     orlData: function() {
       if (this.orlData) {
       } else {
-        this.$router.push({
-          path: `/profile/${this.myId}`
-        });
+        this.$router.push({ name: "profile", params: { id: this.myId } });
       }
     },
     page: function() {
       if (this.page == false) {
-        this.$router.push({
-          path: `/profile/${this.myId}`
-        });
+        this.$router.push({ name: "profile", params: { id: this.myId } });
       }
     },
     $route(to, from) {
@@ -61,8 +57,8 @@ export default {
   },
   methods: {
     updateOrlyk: function() {
-      OrlykData.urlId = this.$route.params.id;
       OrlykData.page = true;
+      OrlykData.urlId = this.$route.params.id;
       $.ajax({
         url: "../orlyky/server/get/orlyk.php",
         type: "POST",
