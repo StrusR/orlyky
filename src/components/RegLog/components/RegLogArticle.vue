@@ -1,5 +1,5 @@
 <template>
-  <div id="RegLogArticle">
+  <article id="RegLogArticle">
     <form autocomplete="on">
         <div>
             <h2>Реєстрація</h2>
@@ -36,7 +36,7 @@
             <input value="Зареєструватися" type="button" @click="register">
         </div>
     </form>
-  </div>
+  </article>
 </template>
 
 <script>

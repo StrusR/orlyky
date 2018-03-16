@@ -16,19 +16,59 @@ var LogoComponent = require("../../globals/Logo.vue");
 var RegLogHeaderData = {
   login: "",
   password: "",
-  message: false
+  message: false,
+  myId: false
 };
 export default {
   name: "RegLogHeader",
   data: function() {
     return RegLogHeaderData;
   },
+  watch: {
+    myId: function() {
+      if (this.myId) {
+        this.$router.push({ name: "Orlyk", params: { id: this.myId } });
+      }
+    }
+  },
   components: {
     "section-logo": LogoComponent
   },
   methods: {
     SignIn: function() {
-      alert("SignIn");
+      if (this.login == "" && this.password == "") {
+        this.message = "Введіть логін і пароль";
+      } else {
+        if (this.login == "") {
+          this.message = "Ви не ввели логін";
+        } else if (this.password == "") {
+          this.message = "Ви не ввели пароль";
+        } else {
+          this.message = false;
+
+          $.ajax({
+            url: "../orlyky/server/get/signIn.php",
+            type: "POST",
+            dataType: "json",
+            data: {
+              login: this.login,
+              password: this.password
+            },
+
+            success: function(data) {
+              if (data.id == false) {
+                loginData.message = "Ви ввели не правильно логін або пароль";
+              } else {
+                RegLogHeaderData.myId = data.id;
+              }
+            },
+
+            error: function() {
+              alert("error");
+            }
+          });
+        }
+      }
     }
   }
 };
