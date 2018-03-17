@@ -1,7 +1,7 @@
 <template>
   <header id="Header">
     <section-logo></section-logo>
-    <section-links></section-links>
+    <section-links :myData="myData"></section-links>
   </header>
 </template>
 
@@ -14,7 +14,8 @@ export default {
   components: {
     "section-logo": LogoComponent,
     "section-links": LinksComponent
-  }
+  },
+  props: ["myData"]
 };
 </script>
 

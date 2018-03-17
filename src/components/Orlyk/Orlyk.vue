@@ -1,6 +1,6 @@
 <template>
   <div id="Orlyk" v-if="page">
-      <section-header></section-header>
+      <section-header :myData="myData"></section-header>
       <section-article v-if="orlData" :orlData="orlData" :myId="myData.myId" :myAccessRights="myData.myAccessRights"></section-article>
   </div>
 </template>

@@ -1,21 +1,15 @@
 <template>
     <div class="Links">
-        <a>{{name}} {{surname}}</a>
+        <a>{{myData.name}} {{myData.surname}}</a>
         <a>Вихід</a>
         <a>Новини</a>
     </div>
 </template>
 
 <script>
-var LinksData = {
-  name: "Роман",
-  surname: "Струсь"
-};
 export default {
   name: "Links",
-  data: function() {
-    return LinksData;
-  }
+  props: ["myData"]
 };
 </script>
 
