@@ -1,5 +1,5 @@
 <template>
-  <div id="RegLog" v-if="myId">
+  <div id="RegLog" v-if="!myId">
       <section-header></section-header>
       <section-article></section-article>
   </div>
@@ -10,7 +10,7 @@ var RegLogHeader = require("../RegLog/components/RegLogHeader.vue");
 var RegLogArticle = require("../RegLog/components/RegLogArticle.vue");
 
 var RegLogData = {
-  myId: ""
+  myId: true
 };
 
 export default {
