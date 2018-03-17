@@ -1,7 +1,7 @@
 <template>
-  <div id="Orlyk">
+  <div id="Orlyk" v-if="page">
       <section-header></section-header>
-      <section-article v-if="orlData" :orlData="orlData" :myId="myId"></section-article>
+      <section-article v-if="orlData" :orlData="orlData" :myId="myData.myId" :myAccessRights="myData.myAccessRights"></section-article>
   </div>
 </template>
 
@@ -10,11 +10,10 @@ var Header = require("../globals/Header/Header.vue");
 var Article = require("../Orlyk/components//Article/Article.vue");
 
 var OrlykData = {
-  myId: false,
   urlId: "",
-  page: true,
-  myAccessRights: "",
-  orlData: ""
+  page: false,
+  orlData: "",
+  myData: ""
 };
 
 export default {
@@ -30,6 +29,7 @@ export default {
     myId: function() {
       if (this.myId == false) {
         this.$router.push({ name: "RegLog" });
+        this.myId = "";
       }
     },
     myAccessRights: function() {
@@ -46,6 +46,7 @@ export default {
     page: function() {
       if (this.page == false) {
         this.$router.push({ name: "profile", params: { id: this.myId } });
+        this.page = false;
       }
     },
     $route(to, from) {
@@ -53,11 +54,26 @@ export default {
     }
   },
   created: function() {
+    this.updateOrlykMyProfile();
     this.updateOrlyk();
   },
   methods: {
+    updateOrlykMyProfile: function() {
+      $.ajax({
+        url: "../orlyky/server/get/myProfile.php",
+        type: "POST",
+        dataType: "json",
+
+        success: function(data) {
+          OrlykData.myData = data;
+        },
+
+        error: function() {
+          alert("error");
+        }
+      });
+    },
     updateOrlyk: function() {
-      OrlykData.page = true;
       OrlykData.urlId = this.$route.params.id;
       $.ajax({
         url: "../orlyky/server/get/orlyk.php",
@@ -68,11 +84,9 @@ export default {
         },
 
         success: function(data) {
-          OrlykData.myId = data.myId;
-          if (data.myAccessRights == "statement") {
-            OrlykData.myAccessRights = data.myAccessRights;
-          } else if (data.page == true) {
-            if (data.myAccessRights == "command") {
+          if (data.page == true) {
+            OrlykData.page = true;
+            if (OrlykData.myAccessRights == "command") {
               OrlykData.orlData = data;
             } else if (data.accessRights != "statement") {
               OrlykData.orlData = data;

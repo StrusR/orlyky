@@ -1,36 +1,28 @@
 <template>
-  <div id="RegLog" v-if="myId">
-      <section-header></section-header>
-      <section-article></section-article>
-  </div>
+  <div id="Home"></div>
 </template>
 
 <script>
-var RegLogHeader = require("../RegLog/components/RegLogHeader.vue");
-var RegLogArticle = require("../RegLog/components/RegLogArticle.vue");
-
-var RegLogData = {
+var HomeData = {
   myId: ""
 };
 
 export default {
-  name: "RegLog",
-  components: {
-    "section-header": RegLogHeader,
-    "section-article": RegLogArticle
-  },
+  name: "Home",
   data: function() {
-    return RegLogData;
+    return HomeData;
   },
   watch: {
     myId: function() {
       if (this.myId) {
         this.$router.push({ name: "profile", params: { id: this.myId } });
-        this.myId = "";
+      } else {
+        this.$router.push({ name: "RegLog" });
       }
+      this.myId = "";
     }
   },
-  created: function() {
+  mounted: function() {
     this.updateOrlykMyProfile();
   },
   methods: {
@@ -41,7 +33,7 @@ export default {
         dataType: "json",
 
         success: function(data) {
-          RegLogData.myId = data.id;
+          HomeData.myId = data.id;
         },
 
         error: function() {

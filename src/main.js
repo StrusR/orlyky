@@ -6,15 +6,18 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
+var Home = require("./components/Home.vue");
 var RegLog = require("./components/RegLog/RegLog.vue");
 var Orlyk = require("./components/Orlyk/Orlyk.vue");
 
 var router = new VueRouter({
   routes: [
+    { path: '/', name: 'home', component: Home },
     { path: '/RegLog', name: 'RegLog', component: RegLog },
     { path: '/profile/:id', name: 'profile', component: Orlyk },
     // { path: '*', component: NotFound }
-    { path: '*', redirect: "/RegLog" }
+    { path: '*', redirect: "/" },
+    { path: '/#/', redirect: "/" }
   ],
   scrollBehavior(to, from, savedPosition) {
     return { x: 0, y: 0 }
