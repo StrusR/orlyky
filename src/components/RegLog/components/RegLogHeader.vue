@@ -29,6 +29,7 @@ export default {
       if (this.myId) {
         this.$router.push({ name: "profile", params: { id: this.myId } });
       }
+      this.myId = false;
     }
   },
   components: {

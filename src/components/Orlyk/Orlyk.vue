@@ -10,6 +10,8 @@ var Header = require("../globals/Header/Header.vue");
 var Article = require("../Orlyk/components//Article/Article.vue");
 
 var OrlykData = {
+  myId: "",
+  myAccessRights: "",
   urlId: "",
   page: false,
   orlData: "",
@@ -65,6 +67,8 @@ export default {
         dataType: "json",
 
         success: function(data) {
+          OrlykData.myId = data.id;
+          OrlykData.myAccessRights = data.accessRights;
           OrlykData.myData = data;
         },
 
