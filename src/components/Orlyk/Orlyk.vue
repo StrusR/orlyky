@@ -1,7 +1,7 @@
 <template>
   <div id="Orlyk" v-if="page">
       <section-header :myData="myData"></section-header>
-      <section-article v-if="orlData" :orlData="orlData" :myId="myData.myId" :myAccessRights="myData.myAccessRights"></section-article>
+      <section-article v-if="orlData" :orlData="orlData" :myId="myData.myId"></section-article>
   </div>
 </template>
 

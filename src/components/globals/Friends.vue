@@ -2,25 +2,42 @@
   <div id="Friends">
     <div class="sort">sort</div>
     <div class="content">
-        <div v-for="friend in friends" class="friend">
+        <div v-for="friend in friends" :key="friend.id" class="friend">
             <router-link :to="{ name: 'profile', params: { id: friend.id }}">{{friend.surname}} {{friend.name}}</router-link>
             <div class="btn" v-if="friend.accessRights == 'statement'">
-                <a @click="Accept(friend.id)"></a>
+                <a @click="updateAccept(friend.id)"></a>
                 <a @click="Reject(friend.id)"></a>
             </div>
         </div>
     </div>
+    <section-background-close v-if="orlData" v-on:backgroundClick="close"></section-background-close>
+    <section-accept :orlData="orlData" v-on:backgroundClick="close" ref="accept"></section-accept>
   </div>
 </template>
 
 <script>
+var BackgroundClose = require("../globals/BackgroundClose.vue");
+var Accept = require("../globals/Accept.vue");
+
 var FriendsData = {
-  friends: ""
+  friends: "",
+  orlData: false
 };
 export default {
   name: "Friends",
   data: function() {
     return FriendsData;
+  },
+  watch: {
+    orlData: function() {
+      if (this.orlData != false) {
+        this.$router.push({ name: "profile", params: { id: this.orlData.id } });
+      }
+    }
+  },
+  components: {
+    "section-background-close": BackgroundClose,
+    "section-accept": Accept
   },
   created: function() {
     this.updateFriends();
@@ -38,6 +55,30 @@ export default {
 
         error: function() {
           alert("error");
+        }
+      });
+    },
+    close: function() {
+      this.$refs.accept.accessRights = false;
+      this.$refs.accept.isColorAnimation = false;
+      this.$router.push({ name: "profile", params: { id: this.orlData.id } });
+      this.orlData = false;
+    },
+
+    Reject: function(id) {
+      alert(id);
+    },
+    updateAccept: function(id) {
+      $.ajax({
+        url: "../orlyky/server/get/orlyk.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+          id: id
+        },
+
+        success: function(data) {
+          FriendsData.orlData = data;
         }
       });
     }

@@ -1,6 +1,6 @@
 <template>
     <div class="Links">
-        <a>{{myData.name}} {{myData.surname}}</a>
+        <router-link :to="{ name: 'profile', params: { id: myData.id }}">{{myData.surname}} {{myData.name}}</router-link>
         <a @click="SignOut">Вихід</a>
         <a>Новини</a>
     </div>
