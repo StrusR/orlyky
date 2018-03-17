@@ -20,8 +20,10 @@ export default {
     session: function() {
       if (this.session == false) {
         this.$router.push({ name: "RegLog" });
-        this.session = "";
+      } else {
+        alert("error");
       }
+      this.session = "";
     }
   },
   methods: {

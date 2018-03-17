@@ -16,10 +16,13 @@
                 </div>
             </div>
         </div>
+        <section-friends class="rightCol"></section-friends>
     </article>
 </template>
 
 <script>
+var Friends = require("../../../globals/Friends.vue");
+
 export default {
   name: "Article",
   props: ["orlData", "myId"],
@@ -28,17 +31,17 @@ export default {
       //   updateOrlykSettings(this.id);
     }
   },
-  components: {}
+  components: {
+    "section-friends": Friends
+  }
 };
 </script>
 
 <style scoped>
 #OrlykArticle {
-  margin-top: 7%;
-}
-#OrlykArticle {
   box-shadow: -2px 2px 5px 0px rgb(60, 0, 0);
   height: 100%;
+  margin-top: 7%;
 }
 
 #OrlykArticle .baner {
