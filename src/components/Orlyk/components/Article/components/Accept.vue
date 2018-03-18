@@ -2,7 +2,7 @@
   <div id="Accept" v-if="orlData.accessRights == 'statement' && myAccessRights == 'command'">
     <div class="minHeader">{{orlData.surname}} {{orlData.name}} {{orlData.patronymic}}</div>
     <div class="content">
-        <h3 :class="{ColorAnimation: isColorAnimation}">Вкажіть права користувача!</h3>
+        <h3>Вкажіть права користувача!</h3>
         <div class="radio">
             <a :class="{active: accessRights=='command'}" @click="accessRights='command'">
                 <h4>Провід</h4>
@@ -15,7 +15,7 @@
         </div>
         <div class="btn">
             <a @click="Cancel">Відміна</a>
-            <a @click="Accept(orlData.id, accessRights)">Прийняти</a>
+            <a @click="Accept(orlData.id, accessRights)" v-if="accessRights">Прийняти</a>
         </div>
     </div>
   </div>
@@ -24,10 +24,8 @@
 <script>
 var AcceptData = {
   myAccessRights: false,
-  myId: false,
 
   accessRights: false,
-  isColorAnimation: false,
   update: false
 };
 export default {
@@ -45,6 +43,7 @@ export default {
   watch: {
     update: function() {
       this.$router.push({ name: "profile", params: { id: this.orlData.id } });
+      this.accessRights = false;
       this.update = false;
     }
   },
@@ -65,41 +64,31 @@ export default {
       });
     },
     Accept: function(id, accessRights) {
-      if (this.isColorAnimation == false) {
-        if (this.accessRights == false) {
-          this.isColorAnimation = true;
+      $.ajax({
+        url: "../orlyky/server/set/acceptOrlyk.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+          id: id,
+          accessRights: accessRights
+        },
 
-          setTimeout(() => {
-            this.isColorAnimation = false;
-          }, 2000);
-        } else {
-          $.ajax({
-            url: "../orlyky/server/set/acceptOrlyk.php",
-            type: "POST",
-            dataType: "json",
-            data: {
-              id: id,
-              accessRights: accessRights
-            },
+        success: function(data) {
+          if (data.response) {
+            AcceptData.update = true;
+          } else {
+            alert("error");
+          }
+        },
 
-            success: function(data) {
-              if (data.response) {
-                AcceptData.update = true;
-              } else {
-                alert("error");
-              }
-            },
-
-            error: function() {
-              alert("error");
-            }
-          });
+        error: function() {
+          alert("error");
         }
-      }
+      });
     },
 
     Cancel: function() {
-      AcceptData.update = true;
+      this.update = true;
     }
   }
 };
@@ -186,42 +175,16 @@ export default {
   text-align: center;
   cursor: pointer;
 }
-#Accept .content .btn a:first-child {
-  background: linear-gradient(rgb(128, 0, 0) 20%, rgb(60, 0, 0));
-}
-#Accept .content .btn a:first-child:hover {
-  background: linear-gradient(rgb(152, 0, 0) 20%, rgb(104, 0, 0));
-}
 #Accept .content .btn a:last-child {
   background: linear-gradient(rgb(0, 108, 0) 20%, rgb(0, 81, 0));
 }
 #Accept .content .btn a:last-child:hover {
   background: linear-gradient(rgb(0, 108, 0) 20%, rgb(0, 121, 0));
 }
-.ColorAnimation {
-  animation-name: ColorAnimation;
-  animation-duration: 2s;
+#Accept .content .btn a:first-child {
+  background: linear-gradient(rgb(128, 0, 0) 20%, rgb(60, 0, 0));
 }
-@keyframes ColorAnimation {
-  from {
-    color: black;
-    background: white;
-  }
-  25% {
-    color: red;
-    background: rgb(60, 0, 0);
-  }
-  50% {
-    color: black;
-    background: white;
-  }
-  75% {
-    color: red;
-    background: rgb(60, 0, 0);
-  }
-  to {
-    color: black;
-    background: white;
-  }
+#Accept .content .btn a:first-child:hover {
+  background: linear-gradient(rgb(152, 0, 0) 20%, rgb(104, 0, 0));
 }
 </style>

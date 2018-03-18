@@ -10,6 +10,7 @@ var Home = require("./components/Home.vue");
 var RegLog = require("./components/RegLog/RegLog.vue");
 var Orlyk = require("./components/Orlyk/Orlyk.vue");
 var Accept = require("./components/Orlyk/components/Article/components/Accept.vue");
+var Regect = require("./components/Orlyk/components/Article/components/Regect.vue");
 
 var router = new VueRouter({
   routes: [
@@ -21,11 +22,14 @@ var router = new VueRouter({
       component: Orlyk,
       children: [
         {
-          // при совпадении пути с шаблоном /user/:id/profile
-          // в <router-view> компонента User будет отображён UserProfile
           path: 'accept',
           name: 'accept',
           component: Accept
+        },
+        {
+          path: 'regect',
+          name: 'regect',
+          component: Regect
         }
       ]
     },

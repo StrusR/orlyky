@@ -6,7 +6,7 @@
             <router-link :to="{ name: 'profile', params: { id: friend.id }}">{{friend.surname}} {{friend.name}}</router-link>
             <div class="btn" v-if="friend.accessRights == 'statement'">
                 <router-link :to="{ path: `/profile/${friend.id}/accept`}"></router-link>
-                <a @click="Reject(friend.id)"></a>
+                <router-link :to="{ path: `/profile/${friend.id}/regect`}"></router-link>
             </div>
         </div>
     </div>
@@ -47,10 +47,6 @@ export default {
           FriendsData.friends = data;
         }
       });
-    },
-
-    Reject: function(id) {
-      alert(id);
     }
   }
 };
