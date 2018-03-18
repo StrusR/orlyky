@@ -5,20 +5,15 @@
         <div v-for="friend in friends" :key="friend.id" class="friend">
             <router-link :to="{ name: 'profile', params: { id: friend.id }}">{{friend.surname}} {{friend.name}}</router-link>
             <div class="btn" v-if="friend.accessRights == 'statement'">
-                <a @click="updateAccept(friend.id)"></a>
+                <router-link :to="{ path: `/profile/${friend.id}/accept`}"></router-link>
                 <a @click="Reject(friend.id)"></a>
             </div>
         </div>
     </div>
-    <section-background-close v-if="orlData" v-on:backgroundClick="close"></section-background-close>
-    <section-accept :orlData="orlData" v-on:backgroundClick="close" ref="accept"></section-accept>
   </div>
 </template>
 
 <script>
-var BackgroundClose = require("../globals/BackgroundClose.vue");
-var Accept = require("../globals/Accept.vue");
-
 var FriendsData = {
   friends: "",
   orlData: false
@@ -35,11 +30,10 @@ export default {
       }
     }
   },
-  components: {
-    "section-background-close": BackgroundClose,
-    "section-accept": Accept
-  },
   created: function() {
+    this.updateFriends();
+  },
+  updated: function() {
     this.updateFriends();
   },
   methods: {
@@ -51,36 +45,12 @@ export default {
 
         success: function(data) {
           FriendsData.friends = data;
-        },
-
-        error: function() {
-          alert("error");
         }
       });
-    },
-    close: function() {
-      this.$refs.accept.accessRights = false;
-      this.$refs.accept.isColorAnimation = false;
-      this.$router.push({ name: "profile", params: { id: this.orlData.id } });
-      this.orlData = false;
     },
 
     Reject: function(id) {
       alert(id);
-    },
-    updateAccept: function(id) {
-      $.ajax({
-        url: "../orlyky/server/get/orlyk.php",
-        type: "POST",
-        dataType: "json",
-        data: {
-          id: id
-        },
-
-        success: function(data) {
-          FriendsData.orlData = data;
-        }
-      });
     }
   }
 };

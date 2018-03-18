@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     if ($myAccessRights == 'command') {
         if ($accessRights == 'command' || $accessRights == 'participant') {
-            // $mysqli -> query("UPDATE `users` SET `accessRights` = '".$accessRights."' WHERE `users`.`id` = '".$id."'");
+            $mysqli -> query("UPDATE `users` SET `accessRights` = '".$accessRights."' WHERE `users`.`id` = '".$id."'");
             $SuccessReturn['response'] = true;
         } else {
             $SuccessReturn['response'] = false;

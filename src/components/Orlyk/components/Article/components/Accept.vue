@@ -1,28 +1,31 @@
 <template>
-  <div id="Accept" v-if="orlData">
-        <div class="minHeader">{{orlData.surname}} {{orlData.name}} {{orlData.patronymic}}</div>
-        <div class="content">
-            <h3 :class="{ColorAnimation: isColorAnimation}">Вкажіть права користувача!</h3>
-            <div class="radio">
-                <a :class="{active: accessRights=='command'}" @click="accessRights='command'">
-                    <h4>Провід</h4>
-                    <p>Має всі права що і ви. Може приймати і видаляти заявки учасників, а також видаляти уже зареєстрованих учасників. Може створювати новини, завдання а також давати згоду на публікацію новини чи завдання учасників.</p>
-                </a>
-                <a :class="{active: accessRights=='participant'}" @click="accessRights='participant'">
-                    <h4>Учасник</h4>
-                    <p>Має обмежений доступ прав. Не може видаляти учасників, не може бачити заявки учасників,(навіть через url адресу). Може публікувати новину чи задання лише після схвалення її проводом.</p>
-                </a>
-            </div>
-            <div class="btn">
-                <a @click="Cancel">Відміна</a>
-                <a @click="Accept(orlData.id, accessRights)">Прийняти</a>
-            </div>
+  <div id="Accept" v-if="orlData.accessRights == 'statement' && myAccessRights == 'command'">
+    <div class="minHeader">{{orlData.surname}} {{orlData.name}} {{orlData.patronymic}}</div>
+    <div class="content">
+        <h3 :class="{ColorAnimation: isColorAnimation}">Вкажіть права користувача!</h3>
+        <div class="radio">
+            <a :class="{active: accessRights=='command'}" @click="accessRights='command'">
+                <h4>Провід</h4>
+                <p>Має всі права що і ви. Може приймати і видаляти заявки учасників, а також видаляти уже зареєстрованих учасників. Може створювати новини, завдання а також давати згоду на публікацію новини чи завдання учасників.</p>
+            </a>
+            <a :class="{active: accessRights=='participant'}" @click="accessRights='participant'">
+                <h4>Учасник</h4>
+                <p>Має обмежений доступ прав. Не може видаляти учасників, не може бачити заявки учасників,(навіть через url адресу). Може публікувати новину чи задання лише після схвалення її проводом.</p>
+            </a>
         </div>
+        <div class="btn">
+            <a @click="Cancel">Відміна</a>
+            <a @click="Accept(orlData.id, accessRights)">Прийняти</a>
+        </div>
+    </div>
   </div>
 </template>
 
 <script>
 var AcceptData = {
+  myAccessRights: false,
+  myId: false,
+
   accessRights: false,
   isColorAnimation: false,
   update: false
@@ -33,13 +36,34 @@ export default {
   data: function() {
     return AcceptData;
   },
+  updated: function() {
+    this.updateMyProfile();
+    if (this.orlData.accessRights != "statement") {
+      this.update = true;
+    }
+  },
   watch: {
     update: function() {
-      this.$emit("backgroundClick");
+      this.$router.push({ name: "profile", params: { id: this.orlData.id } });
       this.update = false;
     }
   },
   methods: {
+    updateMyProfile: function() {
+      $.ajax({
+        url: "../orlyky/server/get/myProfile.php",
+        type: "POST",
+        dataType: "json",
+
+        success: function(data) {
+          AcceptData.myAccessRights = data.accessRights;
+        },
+
+        error: function() {
+          alert("error");
+        }
+      });
+    },
     Accept: function(id, accessRights) {
       if (this.isColorAnimation == false) {
         if (this.accessRights == false) {
@@ -75,7 +99,7 @@ export default {
     },
 
     Cancel: function() {
-      this.$emit("backgroundClick");
+      AcceptData.update = true;
     }
   }
 };
