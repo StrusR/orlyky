@@ -1,7 +1,7 @@
 <template>
   <div id="Orlyk" v-if="page">
       <section-header :myData="myData"></section-header>
-      <section-article v-if="orlData" :orlData="orlData" :myId="myData.myId"></section-article>
+      <section-article v-if="orlData" :orlData="orlData" :myId="myData.myId" :myAccessRights="myAccessRights"></section-article>
   </div>
 </template>
 
@@ -14,7 +14,7 @@ var OrlykData = {
   myAccessRights: "",
   urlId: "",
   page: false,
-  orlData: "",
+  orlData: false,
   myData: ""
 };
 
@@ -39,12 +39,6 @@ export default {
         this.$router.push({ name: "Statement" });
       }
     },
-    orlData: function() {
-      if (this.orlData) {
-      } else {
-        this.$router.push({ name: "profile", params: { id: this.myId } });
-      }
-    },
     page: function() {
       if (this.page == false) {
         this.$router.push({ name: "profile", params: { id: this.myId } });
@@ -56,6 +50,7 @@ export default {
     }
   },
   created: function() {
+    this.orlData = "";
     this.updateOrlykMyProfile();
     this.updateOrlyk();
   },
@@ -90,12 +85,13 @@ export default {
         success: function(data) {
           if (data.page == true) {
             OrlykData.page = true;
-            if (OrlykData.myAccessRights == "command") {
-              OrlykData.orlData = data;
-            } else if (data.accessRights != "statement") {
+            if (
+              OrlykData.myAccessRights == "command" ||
+              data.accessRights != "statement"
+            ) {
               OrlykData.orlData = data;
             } else {
-              OrlykData.orlData = false;
+              OrlykData.page = false;
             }
           } else {
             OrlykData.page = false;

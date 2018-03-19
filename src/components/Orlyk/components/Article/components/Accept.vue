@@ -23,22 +23,14 @@
 
 <script>
 var AcceptData = {
-  myAccessRights: false,
-
   accessRights: false,
   update: false
 };
 export default {
   name: "Accept",
-  props: ["orlData"],
+  props: ["orlData", "myAccessRights"],
   data: function() {
     return AcceptData;
-  },
-  updated: function() {
-    this.updateMyProfile();
-    if (this.orlData.accessRights != "statement") {
-      this.update = true;
-    }
   },
   watch: {
     update: function() {
@@ -48,21 +40,6 @@ export default {
     }
   },
   methods: {
-    updateMyProfile: function() {
-      $.ajax({
-        url: "../orlyky/server/get/myProfile.php",
-        type: "POST",
-        dataType: "json",
-
-        success: function(data) {
-          AcceptData.myAccessRights = data.accessRights;
-        },
-
-        error: function() {
-          alert("error");
-        }
-      });
-    },
     Accept: function(id, accessRights) {
       $.ajax({
         url: "../orlyky/server/set/acceptOrlyk.php",

@@ -11,6 +11,7 @@ var RegLog = require("./components/RegLog/RegLog.vue");
 var Orlyk = require("./components/Orlyk/Orlyk.vue");
 var Accept = require("./components/Orlyk/components/Article/components/Accept.vue");
 var Regect = require("./components/Orlyk/components/Article/components/Regect.vue");
+var News = require("./components/News/News.vue");
 
 var router = new VueRouter({
   routes: [
@@ -33,7 +34,7 @@ var router = new VueRouter({
         }
       ]
     },
-    // { path: '*', component: NotFound }
+    { path: '/news', name: 'news', component: News },
     { path: '*', redirect: "/" },
     { path: '/#/', redirect: "/" }
   ],

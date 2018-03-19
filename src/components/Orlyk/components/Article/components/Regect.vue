@@ -24,22 +24,14 @@
 
 <script>
 var RegectData = {
-  myAccessRights: false,
-
   method: false,
   update: false
 };
 export default {
   name: "Regect",
-  props: ["orlData"],
+  props: ["orlData", "myAccessRights"],
   data: function() {
     return RegectData;
-  },
-  updated: function() {
-    this.updateMyProfile();
-    if (this.orlData.accessRights != "statement") {
-      this.update = true;
-    }
   },
   watch: {
     update: function() {
@@ -49,21 +41,6 @@ export default {
     }
   },
   methods: {
-    updateMyProfile: function() {
-      $.ajax({
-        url: "../orlyky/server/get/myProfile.php",
-        type: "POST",
-        dataType: "json",
-
-        success: function(data) {
-          RegectData.myAccessRights = data.accessRights;
-        },
-
-        error: function() {
-          alert("error");
-        }
-      });
-    },
     Regect: function(id, accessRights) {
       //   $.ajax({
       //     url: "../orlyky/server/set/acceptOrlyk.php",
@@ -90,7 +67,7 @@ export default {
     },
 
     Cancel: function() {
-      RegectData.update = true;
+      this.update = true;
     }
   }
 };
