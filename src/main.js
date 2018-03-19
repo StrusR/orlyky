@@ -12,6 +12,7 @@ var Orlyk = require("./components/Orlyk/Orlyk.vue");
 var Accept = require("./components/Orlyk/components/Article/components/Accept.vue");
 var Regect = require("./components/Orlyk/components/Article/components/Regect.vue");
 var News = require("./components/News/News.vue");
+var Statement = require("./components/Statement/Statement.vue");
 
 var router = new VueRouter({
   routes: [
@@ -35,6 +36,7 @@ var router = new VueRouter({
       ]
     },
     { path: '/news', name: 'news', component: News },
+    { path: '/statement', name: 'Statement', component: Statement },
     { path: '*', redirect: "/" },
     { path: '/#/', redirect: "/" }
   ],

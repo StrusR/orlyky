@@ -68,30 +68,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     if ($auditEmail == true && $auditName == true && $auditSurname == true && $auditPatronymic == true && $auditPhone == true && $auditPassword == true && $auditRePassword == true) {
         $SuccessReturn['errorRegEx'] = false;
 
-        $data_server = $mysqli -> query("SELECT `id` FROM `users` WHERE `email` = '".$email."'");
-        if ($data_server->num_rows > 0) {
+        $data_server_users = $mysqli -> query("SELECT `id` FROM `users` WHERE `email` = '".$email."'");
+        if ($data_server_users->num_rows > 0) {
             $SuccessReturn['errorEmail'] = true;
         }
 
-        $data_server = $mysqli -> query("SELECT `id` FROM `users` WHERE `phone` = '".$phone."'");
-        if ($data_server->num_rows > 0) {
+        $data_server_users = $mysqli -> query("SELECT `id` FROM `users` WHERE `phone` = '".$phone."'");
+        if ($data_server_users->num_rows > 0) {
             $SuccessReturn['errorPhone'] = true;
         }
         if (!$SuccessReturn['errorEmail'] && !$SuccessReturn['errorPhone']) {
             $mysqli -> query("INSERT INTO `users` (`email`, `name`, `surname`, `patronymic`, `phone`, `password`, `regDate`, `accessRights`) VALUES ('".$email."', '".$name."', '".$surname."', '".$patronymic."', '".$phone."', '".$password."', '".$date."', 'statement')");
-            $mysqli -> query("INSERT INTO `news` (`voting`, `topic`, `description`, `image`, `toSpread`, `date`, `author`) VALUES ('".$date.".json', 'Нова реєстрація', '".$initials." зареєструвався на сайті. Якщо хоч один учасник з проводу підтвердить цю заявку, учасник буде зареєстрований!', 'false', 'command', '".$date."', 'false')");
 
-            $voting = array();
-
-            $fp = fopen('../news/'.$date.'.json', 'w');
-            fwrite($fp, json_encode($voting));
-            fclose($fp);
-
-            $data_server = $mysqli -> query("SELECT `id` FROM `users` WHERE `email` = '".$email."'");
-            while (($all = $data_server->fetch_assoc()) != false) {
+            $data_server_users = $mysqli -> query("SELECT `id` FROM `users` WHERE `email` = '".$email."'");
+            while (($all_users = $data_server_users->fetch_assoc()) != false) {
+                $mysqli -> query("INSERT INTO `news` (`type`, `image`, `accessRights`, `date`, `authorId`) VALUES ('newProfile', 'false', 'command', '".$date."', '".$all_users['id']."')");
                 session_start();
-                $_SESSION['id'] = $all['id'];
-                $SuccessReturn['id'] = $all['id'];
+                $_SESSION['id'] = $all_users['id'];
+                $SuccessReturn['id'] = $all_users['id'];
                 session_write_close();
             };
         }

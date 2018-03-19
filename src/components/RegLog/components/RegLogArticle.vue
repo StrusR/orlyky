@@ -69,7 +69,8 @@ export default {
   watch: {
     id: function() {
       if (this.id) {
-        this.$router.push({ name: "profile", params: { id: this.id } });
+        this.$router.push({ name: "statement" });
+        this.id = false;
       }
     }
   },
