@@ -32,6 +32,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                     $SuccessReturn['news'][$i]['authorPatronymic'] = $all_users['patronymic'];
                 };
             }
+            if ($all_news['type'] == 'newProfile') {
+                $data_server_questions = $mysqli -> query("SELECT * FROM `questions` WHERE `newsId` = '".$all_news['id']."'");
+
+                $j = 0;
+                while (($all_questions = $data_server_questions->fetch_assoc()) != false) {
+                    $SuccessReturn['news'][$i]['questions'][$j] = $all_questions;
+
+                    $data_server_answers = $mysqli -> query("SELECT * FROM `answers` WHERE `questionId` = '".$all_questions['id']."'");
+
+                    $l = 0;
+                    while (($all_answers = $data_server_answers->fetch_assoc()) != false) {
+                        $SuccessReturn['news'][$i]['questions'][$j]['answers'][$l] = $all_answers;
+                        $l++;
+                    };
+
+                    $j++;
+                };
+            }
 
             $i++;
         };

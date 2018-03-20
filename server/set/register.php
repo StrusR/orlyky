@@ -79,15 +79,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         }
         if (!$SuccessReturn['errorEmail'] && !$SuccessReturn['errorPhone']) {
             $mysqli -> query("INSERT INTO `users` (`email`, `name`, `surname`, `patronymic`, `phone`, `password`, `regDate`, `accessRights`) VALUES ('".$email."', '".$name."', '".$surname."', '".$patronymic."', '".$phone."', '".$password."', '".$date."', 'statement')");
+            $last_users_id = $mysqli->insert_id;
 
-            $data_server_users = $mysqli -> query("SELECT `id` FROM `users` WHERE `email` = '".$email."'");
-            while (($all_users = $data_server_users->fetch_assoc()) != false) {
-                $mysqli -> query("INSERT INTO `news` (`type`, `image`, `accessRights`, `date`, `authorId`) VALUES ('newProfile', 'false', 'command', '".$date."', '".$all_users['id']."')");
-                session_start();
-                $_SESSION['id'] = $all_users['id'];
-                $SuccessReturn['id'] = $all_users['id'];
-                session_write_close();
-            };
+            $mysqli -> query("INSERT INTO `news` (`type`, `image`, `accessRights`, `date`, `authorId`) VALUES ('newProfile', 'false', 'command', '".$date."', '".$last_users_id."')");
+            $last_news_id = $mysqli->insert_id;
+            // session_start();
+            // $_SESSION['id'] = $lastUserId;
+            // $SuccessReturn['id'] = $lastUserId;
+            // session_write_close();
+
+            $mysqli -> query("INSERT INTO `questions` (`newsId`, `question`, `type`) VALUES ('".$last_news_id."', 'Цей юнак із вашого гуртка?', '0')");
+            $last_questions_id = $mysqli->insert_id;
+
+            $mysqli -> query("INSERT INTO `answers` (`answer`, `questionId`) VALUES ('Так?', '".$last_questions_id."')");
+            $mysqli -> query("INSERT INTO `answers` (`answer`, `questionId`) VALUES ('Ні?', '".$last_questions_id."')");
+
         }
     }
     $mysqli->close ();

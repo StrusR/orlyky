@@ -58,7 +58,8 @@ export default {
 
             success: function(data) {
               if (data.id == false) {
-                loginData.message = "Ви ввели не правильно логін або пароль";
+                RegLogHeaderData.message =
+                  "Ви ввели не правильно логін або пароль";
               } else {
                 RegLogHeaderData.myId = data.id;
               }

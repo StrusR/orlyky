@@ -1,22 +1,21 @@
 <template>
     <article id="NewsArticle">
         <div class="leftCol">
-          <div class="newsBlock" v-for="n in news" :key="n.id">
+          <div class="newsBlock" v-for="n in news" :key="'news'+n.id">
             <div class="topic">
               <p v-if="n.type == 'newProfile'"><router-link :to="{ name: 'profile', params: { id: n.authorId }}">{{n.authorSurname}} {{n.authorName}} {{n.authorPatronymic}}</router-link> зареєструвався.</p>
               <p v-else>{{n.topic}}</p>
               <div class="isCommand" title="Бачить лише провід куреня" v-if="n.accessRights=='command'"></div>
             </div>
             <div class="description">
-              <p v-if="n.type == 'newProfile'">Підтвердіть або відхиліть його заявку.</p>
-              <p v-else>{{n.description}}</p>
+              <p>{{n.description}}</p>
             </div>
-            <div class="question" v-if="n.type=='newProfile'">
-              <p v-if="n.type=='newProfile'">Цей юнак із вашого гуртка?</p>
-            </div>
-            <div class="answers" v-if="n.type=='newProfile'">
-              <router-link :to="{ path: `/profile/${n.authorId}/accept`}">Так</router-link>
-              <router-link :to="{ path: `/profile/${n.authorId}/regect`}">Ні</router-link>
+            <div class="question" v-for="question in n.questions" :key="'question'+question.id">
+              <p>{{question.question}}</p>
+              <!-- <p>{{question}}</p> -->
+              <div class="answers">
+                <p @click="setAnswer(answer.id)" v-for="answer in question.answers" :key="'answer'+answer.id">{{answer.answer}}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -47,6 +46,26 @@ export default {
         alert("error");
       }
     });
+  },
+  methods: {
+    setAnswer: function(answerId) {
+      $.ajax({
+        url: "../orlyky/server/set/answer.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+          answerId: answerId
+        },
+
+        success: function(data) {
+          alert(data.response);
+        },
+
+        error: function() {
+          alert("error");
+        }
+      });
+    }
   }
 };
 
