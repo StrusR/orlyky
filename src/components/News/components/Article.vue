@@ -14,12 +14,24 @@
               <p>{{question.question}}</p>
               <!-- <p>{{question}}</p> -->
               <div class="answers">
-                <p @click="setAnswer(answer.id)" v-for="answer in question.answers" :key="'answer'+answer.id">{{answer.answer}}</p>
+
+                <div class="answer" v-for="answer in question.answers" :key="'answer'+answer.id" v-if="question.type==0">
+                  <input @click="setAnswer(answer.id, question.id)" type="radio" :name="'answer'+answer.id" :id="'answer'+answer.id" :value="answer.id" v-model="question.usersAnswers[0]">
+                  <label :for="'answer'+answer.id"><p >{{answer.answer}}</p></label>
+                </div>
+
+                <div class="answer" v-for="answer in question.answers" :key="'answer'+answer.id" v-if="question.type==1">
+                  <input type="checkbox" :name="'answer'+answer.id" :id="'answer'+answer.id" :value="answer.id" v-model="question.usersAnswers">
+                  <label :for="'answer'+answer.id"><p >{{answer.answer}}</p></label>
+                </div>
+                <div @click="setAnswer(question.usersAnswers, question.id)" v-if="question.type==1">Проголосувати</div>
+
               </div>
             </div>
           </div>
         </div>
     </article>
+    <!-- @click="setAnswer(answer.id)" -->
 </template>
 
 <script>
@@ -48,13 +60,19 @@ export default {
     });
   },
   methods: {
-    setAnswer: function(answerId) {
+    setAnswer: function(answerId, questionId) {
+      if (Array.isArray(answerId)) {
+        var answerIdArray = answerId;
+      } else {
+        var answerIdArray = [answerId];
+      }
       $.ajax({
         url: "../orlyky/server/set/answer.php",
         type: "POST",
         dataType: "json",
         data: {
-          answerId: answerId
+          answerId: JSON.stringify(answerIdArray),
+          questionId: questionId
         },
 
         success: function(data) {
@@ -69,22 +87,22 @@ export default {
   }
 };
 
-$(window).scroll(function() {
-  alert("s");
-  if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-    $.ajax({
-      url: "../orlyky/server/get/news.php",
-      type: "POST",
-      dataType: "json",
+// $(window).scroll(function() {
+//   alert("s");
+//   if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+//     $.ajax({
+//       url: "../orlyky/server/get/news.php",
+//       type: "POST",
+//       dataType: "json",
 
-      success: function(data) {},
+//       success: function(data) {},
 
-      error: function() {
-        alert("error");
-      }
-    });
-  }
-});
+//       error: function() {
+//         alert("error");
+//       }
+//     });
+//   }
+// });
 </script>
 
 <style scoped>

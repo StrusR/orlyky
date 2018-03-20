@@ -81,18 +81,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $mysqli -> query("INSERT INTO `users` (`email`, `name`, `surname`, `patronymic`, `phone`, `password`, `regDate`, `accessRights`) VALUES ('".$email."', '".$name."', '".$surname."', '".$patronymic."', '".$phone."', '".$password."', '".$date."', 'statement')");
             $last_users_id = $mysqli->insert_id;
 
-            $mysqli -> query("INSERT INTO `news` (`type`, `image`, `accessRights`, `date`, `authorId`) VALUES ('newProfile', 'false', 'command', '".$date."', '".$last_users_id."')");
+            $mysqli -> query("INSERT INTO `news` (`type`, `description`, `image`, `accessRights`, `date`, `authorId`) VALUES ('newProfile', 'Підтвердіть або відхиліть його заявку.', 'false', 'command', '".$date."', '".$last_users_id."')");
             $last_news_id = $mysqli->insert_id;
-            // session_start();
-            // $_SESSION['id'] = $lastUserId;
-            // $SuccessReturn['id'] = $lastUserId;
-            // session_write_close();
 
             $mysqli -> query("INSERT INTO `questions` (`newsId`, `question`, `type`) VALUES ('".$last_news_id."', 'Цей юнак із вашого гуртка?', '0')");
             $last_questions_id = $mysqli->insert_id;
 
             $mysqli -> query("INSERT INTO `answers` (`answer`, `questionId`) VALUES ('Так?', '".$last_questions_id."')");
             $mysqli -> query("INSERT INTO `answers` (`answer`, `questionId`) VALUES ('Ні?', '".$last_questions_id."')");
+
+            session_start();
+            $_SESSION['id'] = $last_users_id;
+            $SuccessReturn['id'] = $last_users_id;
+            session_write_close();
+
 
         }
     }
