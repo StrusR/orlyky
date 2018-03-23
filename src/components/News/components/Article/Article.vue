@@ -1,7 +1,7 @@
 <template>
     <article id="NewsArticle" v-if="news">
         <div class="leftCol">
-          <div class="newsBlock" v-for="n in news" :key="'news'+n.id">
+          <div class="newsBlock" v-for="(n, nIndex) in news" :key="'news'+n.id">
             <div class="topic">
               <p v-if="n.type == 'newProfile'"><router-link :to="{ name: 'profile', params: { id: n.authorId }}">{{n.authorSurname}} {{n.authorName}} {{n.authorPatronymic}}</router-link> зареєструвався.</p>
               <p v-else>{{n.topic}}</p>
@@ -11,27 +11,38 @@
               <p>{{n.description}}</p>
             </div>
             <div class="questions">
-              <div class="question"  v-for="questionId in n.questions" :key="'question'+questionId">
+              <div class="question"  v-for="(question, qIndex) in n.questions" :key="'question'+question.id">
                 <p>{{question.question}}</p>
                 <div class="answers">
-                <div class="answer" v-for="answer in question.answers" :key="'answer'+answer.id" v-if="question.type==0">
-                    <input @click="setAnswer(answer.id, question.id)" type="radio" :name="'answer'+answer.id" :id="'answer'+answer.id" :value="answer.id" v-model="question.usersAnswers[0]">
-                    <label :for="'answer'+answer.id"><p :class="{active: question.usersAnswers[0]==answer.id}">{{answer.answer}}</p></label>
-                </div>
-                <div class="answer" v-for="answer in question.answers" :key="'answer'+answer.id" v-if="question.type==1">
-                    <input type="checkbox" :name="'answer'+answer.id" :id="'answer'+answer.id" :value="answer.id" v-model="question.usersAnswers">
-                    <label :for="'answer'+answer.id"><p :class="{active: question.usersAnswers[question.usersAnswers.indexOf(answer.id)]}">{{answer.answer}}</p></label>
-                </div>
-                <div @click="setAnswer(question.usersAnswers, question.id)" v-if="question.type==1">Проголосувати</div>
-                <div class="answer">
-                    <router-link class="answerName" :to="{ path: `/profile/${n.authorId}/accept`}" v-if="question.type==2">Так</router-link>
-                </div>
-                <label class="answer" v-for="answer in question.answers" :key="'answer'+answer.id" v-if="question.type==2">
-                    <input @click="setAnswer(answer.id, question.id)" type="radio" :name="'answer'+answer.id" :id="'answer'+answer.id" :value="answer.id" v-model="question.usersAnswers[0]">
-                    <div class="answerName" :for="'answer'+answer.id" :class="{active: question.usersAnswers[0]==answer.id}">{{answer.answer}}</div>
-                    <div class="chart" v-if="chartWidth" :style="{width: 100/users.length*answer.voted.length+'%'}"></div>
-                    {{question.id}}
-                </label>
+                  <!-- <div class="answer" v-for="answer in question.answers" :key="'answer'+answer.id" v-if="question.type==0">
+                      <input @click="setAnswer(answer.id, question.id)" type="radio" :name="'answer'+answer.id" :id="'answer'+answer.id" :value="answer.id" v-model="question.usersAnswers[0]">
+                      <label :for="'answer'+answer.id"><p :class="{active: question.usersAnswers[0]==answer.id}">{{answer.answer}}</p></label>
+                  </div> -->
+
+
+
+                  <label class="answer" v-for="answer in question.answers" :key="'answer'+answer.id" v-if="question.type==1">
+                    <input type="checkbox" :name="'answer'+answer.id" :id="'answer'+answer.id" :value="answer.id" v-model="question.myAnswers">
+                    <div class="answerName" :class="{active: question.myAnswers[question.myAnswers.indexOf(answer.id)]}">{{answer.answer}}</div>
+                    <div class="chart" :style="{width: 100/n.users.length*answer.voted.length+'%'}"></div>
+                  </label>
+
+
+
+
+                  <div class="answer">
+                      <router-link class="answerName" :to="{ path: `/profile/${n.authorId}/accept`}" v-if="question.type==2">Так</router-link>
+                  </div>
+                  <label class="answer" v-for="answer in question.answers" :key="'answer'+answer.id" v-if="question.type==2">
+                      <input type="radio" :name="'answer'+answer.id" :id="'answer'+answer.id" :value="answer.id" v-model="question.myAnswers[0]">
+                      <div class="answerName" :for="'answer'+answer.id" :class="{active: question.myAnswers[0]==answer.id}">{{answer.answer}}</div>
+                      <div class="chart" :style="{width: 100/n.users.length*answer.voted.length+'%'}"></div>
+                  </label>
+                  <div class="answer">
+                    <div class="answerName">Не голосували</div>
+                    <div class="chart" :style="{width: 100/n.users.length+'%'}"></div>
+                  </div>
+                  <div @click="setAnswer(question.myAnswers, question.id, nIndex, qIndex)">Проголосувати</div>
                 </div>
               </div>
             </div>
@@ -41,19 +52,20 @@
 </template>
 
 <script>
-var Question = require("../Article/components/Question.vue");
-
 var NewsData = {
-  news: ""
+  news: "",
+  dataQuestion: ""
 };
 
 export default {
   name: "NewsArticle",
-  components: {
-    "section-question": Question
-  },
   data: function() {
     return NewsData;
+  },
+  watch: {
+    news: function() {
+      this.news = this.news;
+    }
   },
   created: function() {
     this.news = "";
@@ -64,6 +76,7 @@ export default {
 
       success: function(data) {
         NewsData.news = data.news;
+        // alert(data.test);
       },
 
       error: function() {
@@ -72,39 +85,33 @@ export default {
     });
   },
   methods: {
-    setAnswer: function(answerId, questionId) {
-      if (Array.isArray(answerId)) {
-        var answerIdArray = answerId;
+    setAnswer: function(answersId, questionId, nIndex, qIndex) {
+      if (Array.isArray(answersId)) {
+        var answersIdArray = answersId;
       } else {
-        var answerIdArray = [answerId];
+        var answersIdArray = [answersId];
       }
       $.ajax({
         url: "../orlyky/server/set/answer.php",
         type: "POST",
         dataType: "json",
         data: {
-          answerId: JSON.stringify(answerIdArray),
+          answerId: JSON.stringify(answersIdArray),
           questionId: questionId
-        }
-      });
-    },
-    updateQuestoin: function(id) {
-      $.ajax({
-        url: "../orlyky/server/get/question.php",
-        type: "POST",
-        dataType: "json",
-        data: {
-          id: id
         },
-
         success: function(data) {
-          // QuestionData.question = data.question;
-          // QuestionData.users = data.users;
-          return data;
-        },
-
-        error: function() {
-          alert("error");
+          $.ajax({
+            url: "../orlyky/server/get/question.php",
+            type: "POST",
+            dataType: "json",
+            data: {
+              id: questionId
+            },
+            success: function(data) {
+              NewsData.news[nIndex].questions[qIndex].answers =
+                data.question.answers;
+            }
+          });
         }
       });
     }
@@ -120,6 +127,7 @@ export default {
   box-shadow: -2px 2px 5px 0px rgb(60, 0, 0);
   height: 100%;
   margin-top: 7%;
+  z-index: 100;
 }
 #NewsArticle .newsBlock {
   margin-bottom: 3%;
@@ -157,12 +165,12 @@ export default {
   padding: 1%;
   box-sizing: border-box;
 }
-#Question > p {
+#NewsArticle .newsBlock > .questions > .question > p {
   display: block;
   padding: 1%;
   box-sizing: border-box;
 }
-#Question > .answers > .answer {
+#NewsArticle .newsBlock > .questions > .question > .answers > .answer {
   display: block;
   cursor: pointer;
   margin-bottom: 2px;
@@ -170,10 +178,16 @@ export default {
   box-sizing: border-box;
 }
 
-#Question > .answers > .answer > input {
+#NewsArticle .newsBlock > .questions > .question > .answers > .answer > input {
   display: none;
 }
-#Question > .answers > .answer > .answerName {
+#NewsArticle
+  .newsBlock
+  > .questions
+  > .question
+  > .answers
+  > .answer
+  > .answerName {
   display: block;
   padding: 0.5%;
   box-sizing: border-box;
@@ -182,18 +196,30 @@ export default {
   font-weight: bold;
   position: relative;
 }
-#Question > .answers > .answer > .chart {
+#NewsArticle .newsBlock > .questions > .question > .answers > .answer > .chart {
   background: rgb(0, 0, 0);
   height: 100%;
   position: absolute;
   top: 0;
   opacity: 0.1;
 }
-#Question > .answers > .answer:hover > .answerName {
+#NewsArticle
+  .newsBlock
+  > .questions
+  > .question
+  > .answers
+  > .answer:hover
+  > .answerName {
   background: rgb(228, 228, 228);
 }
 
-#Question > .answers > .answer > .active {
+#NewsArticle
+  .newsBlock
+  > .questions
+  > .question
+  > .answers
+  > .answer
+  > .active {
   color: rgb(85, 255, 0);
 }
 </style>

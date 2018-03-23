@@ -22,6 +22,7 @@ export default {
 <style scoped>
 #Header {
   background: linear-gradient(rgb(128, 0, 0) 20%, rgb(60, 0, 0));
+  border-bottom: 1px solid white;
   padding: 1%;
   box-sizing: border-box;
   position: fixed;

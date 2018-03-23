@@ -36,7 +36,7 @@ var router = new VueRouter({
       ]
     },
     { path: '/news', name: 'news', component: News },
-    { path: '/statement', name: 'statement', component: Statement },
+    { path: '/statement', name: 'Statement', component: Statement },
     { path: '*', redirect: "/" },
     { path: '/#/', redirect: "/" }
   ],
