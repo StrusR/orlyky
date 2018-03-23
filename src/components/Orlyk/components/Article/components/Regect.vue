@@ -15,7 +15,7 @@
         </div>
         <div class="btn">
             <a @click="Cancel">Відміна</a>
-            <a @click="Regect(orlData.id)" v-if="method=='voting'">Проголосувати</a>
+            <a @click="Voting(orlData.id)" v-if="method=='voting'">Проголосувати</a>
             <a @click="Regect(orlData.id)" v-else-if="method=='delete'">Видалити</a>
         </div>
     </div>
@@ -35,39 +35,59 @@ export default {
   },
   watch: {
     update: function() {
-      this.$router.push({ name: "profile", params: { id: this.orlData.id } });
+      this.$router.push({ name: "profile", params: { id: this.update } });
       this.method = false;
       this.update = false;
     }
   },
   methods: {
-    Regect: function(id, accessRights) {
-      //   $.ajax({
-      //     url: "../orlyky/server/set/acceptOrlyk.php",
-      //     type: "POST",
-      //     dataType: "json",
-      //     data: {
-      //       id: id,
-      //       accessRights: accessRights
-      //     },
+    Regect: function(id) {
+      $.ajax({
+        url: "../orlyky/server/set/regectOrlyk.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+          id: id
+        },
 
-      //     success: function(data) {
-      //       if (data.response) {
-      //         RegectData.update = true;
-      //       } else {
-      //         alert("error");
-      //       }
-      //     },
+        success: function(data) {
+          if (data.response) {
+            RegectData.update = data.response;
+          } else {
+            alert("false");
+          }
+        },
 
-      //     error: function() {
-      //       alert("error");
-      //     }
-      //   });
-      alert("regect" + this.orlData.id);
+        error: function() {
+          alert("error");
+        }
+      });
+    },
+    Voting: function(id) {
+      $.ajax({
+        url: "../orlyky/server/set/regectOrlykVoiting.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+          id: id
+        },
+
+        success: function(data) {
+          if (data.response) {
+            RegectData.update = data.response;
+          } else {
+            alert("false");
+          }
+        },
+
+        error: function() {
+          alert("error");
+        }
+      });
     },
 
     Cancel: function() {
-      this.update = true;
+      this.update = this.orlData.id;
     }
   }
 };

@@ -7,7 +7,7 @@
 
 <script>
 var Header = require("../globals/Header/Header.vue");
-var Article = require("../News/components/Article.vue");
+var Article = require("../News/components/Article/Article.vue");
 
 var NewsData = {
   myId: "",

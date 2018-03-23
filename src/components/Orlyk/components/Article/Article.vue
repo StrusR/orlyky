@@ -18,7 +18,7 @@
               </div>
             </div>
         </div>
-        <section-friends class="rightCol"></section-friends>
+        <section-friends :orlData="orlData" class="rightCol"></section-friends>
         <router-view :orlData="orlData" :myAccessRights="myAccessRights"></router-view>
     </article>
 </template>

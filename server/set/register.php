@@ -84,11 +84,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $mysqli -> query("INSERT INTO `news` (`type`, `description`, `image`, `accessRights`, `date`, `authorId`) VALUES ('newProfile', 'Підтвердіть або відхиліть його заявку.', 'false', 'command', '".$date."', '".$last_users_id."')");
             $last_news_id = $mysqli->insert_id;
 
-            $mysqli -> query("INSERT INTO `questions` (`newsId`, `question`, `type`) VALUES ('".$last_news_id."', 'Цей юнак із вашого гуртка?', '0')");
+            $mysqli -> query("INSERT INTO `questions` (`newsId`, `question`, `type`) VALUES ('".$last_news_id."', 'Цей юнак із вашого гуртка?', '2')");
             $last_questions_id = $mysqli->insert_id;
 
-            $mysqli -> query("INSERT INTO `answers` (`answer`, `questionId`) VALUES ('Так?', '".$last_questions_id."')");
-            $mysqli -> query("INSERT INTO `answers` (`answer`, `questionId`) VALUES ('Ні?', '".$last_questions_id."')");
+            $mysqli -> query("INSERT INTO `answers` (`answer`, `questionId`) VALUES ('Ні', '".$last_questions_id."')");
 
             session_start();
             $_SESSION['id'] = $last_users_id;

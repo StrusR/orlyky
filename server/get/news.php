@@ -33,30 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                 };
             }
             if ($all_news['type'] == 'newProfile') {
-                $data_server_questions = $mysqli -> query("SELECT * FROM `questions` WHERE `newsId` = '".$all_news['id']."'");
+                $data_server_questions = $mysqli -> query("SELECT `id` FROM `questions` WHERE `newsId` = '".$all_news['id']."'");
 
                 $j = 0;
                 while (($all_questions = $data_server_questions->fetch_assoc()) != false) {
-                    $SuccessReturn['news'][$i]['questions'][$j] = $all_questions;
-
-                    $data_server_answers = $mysqli -> query("SELECT * FROM `answers` WHERE `questionId` = '".$all_questions['id']."'");
-
-                    $l = 0;
-                    while (($all_answers = $data_server_answers->fetch_assoc()) != false) {
-                        $SuccessReturn['news'][$i]['questions'][$j]['answers'][$l] = $all_answers;
-
-                        $data_server_usersAnswers = $mysqli -> query("SELECT * FROM `usersAnswers` WHERE `questionId` = '".$all_questions['id']."' && `userId` = '".$myId."'");
-                        if ($data_server_usersAnswers->num_rows > 0) {
-                            $g = 0;
-                            while (($all_usersAnswers = $data_server_usersAnswers->fetch_assoc()) != false) {
-                                $SuccessReturn['news'][$i]['questions'][$j]['usersAnswers'][$g] = $all_usersAnswers['answerId'];
-                                $g++;
-                            };
-                        } else {
-                            $SuccessReturn['news'][$i]['questions'][$j]['usersAnswers'] = array();
-                        }
-                        $l++;
-                    };
+                    $SuccessReturn['news'][$i]['questions'][$j] = $all_questions['id'];
                     $j++;
                 };
             }

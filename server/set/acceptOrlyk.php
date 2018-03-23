@@ -18,7 +18,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     if ($myAccessRights == 'command') {
         if ($accessRights == 'command' || $accessRights == 'participant') {
+            $data_server_news = $mysqli -> query("SELECT `id` FROM `news` WHERE `authorId` = '".$id."'");
+            while (($all_news = $data_server_news->fetch_assoc()) != false) {
+                $data_server_questions = $mysqli -> query("SELECT `id` FROM `questions` WHERE `newsId` = '".$all_news['id']."'");
+                while (($all_questions = $data_server_questions->fetch_assoc()) != false) {
+                    $mysqli -> query("DELETE FROM `answers` WHERE `questionId` = '".$all_questions['id']."'");
+                    $mysqli -> query("DELETE FROM `usersAnswers` WHERE `questionId` = '".$all_questions['id']."'");
+                };
+                $mysqli -> query("DELETE FROM `questions` WHERE `newsId` = '".$all_news['id']."'");
+            };
+            $mysqli -> query("DELETE FROM `news` WHERE `authorId` = '".$id."'");
             $mysqli -> query("UPDATE `users` SET `accessRights` = '".$accessRights."' WHERE `users`.`id` = '".$id."'");
+
             $SuccessReturn['response'] = true;
         } else {
             $SuccessReturn['response'] = false;

@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             while (($all_news = $data_server_news->fetch_assoc()) != false) {
                 if ($myAccessRights == $all_news['accessRights']) {
                     $mysqli -> query("DELETE FROM `usersAnswers` WHERE `userId` = '".$myId."' && `questionId` = '".$all_questions['id']."'");
-                    if ($all_questions['type'] == 0) {
+                    if ($all_questions['type'] == 0 || $all_questions['type'] == 2) {
                         $mysqli -> query("INSERT INTO `usersAnswers` (`userId`, `questionId`, `answerId`) VALUES ('".$myId."', '".$all_questions['id']."', '".$answerId[0]."')");
                     } else if ($all_questions['type'] == 1) {
                         for ($f=0; $f < count($answerId); $f++) { 
