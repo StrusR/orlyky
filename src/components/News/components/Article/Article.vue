@@ -14,35 +14,42 @@
               <div class="question"  v-for="(question, qIndex) in n.questions" :key="'question'+question.id">
                 <p>{{question.question}}</p>
                 <div class="answers">
-                  <!-- <div class="answer" v-for="answer in question.answers" :key="'answer'+answer.id" v-if="question.type==0">
-                      <input @click="setAnswer(answer.id, question.id)" type="radio" :name="'answer'+answer.id" :id="'answer'+answer.id" :value="answer.id" v-model="question.usersAnswers[0]">
-                      <label :for="'answer'+answer.id"><p :class="{active: question.usersAnswers[0]==answer.id}">{{answer.answer}}</p></label>
-                  </div> -->
+
+                  <router-link :to="{ path: `/profile/${n.authorId}/accept`}" class="answer" v-if="question.type==2">
+                    <input type="radio">
+                      <div class="answerName" >Так</div>
+                      <div class="chart" >
+                        <div class="section" v-for="(chart, cIndex) in n.users" :key="'question'+question.id+'chert'+cIndex" :style="{width: 100/n.users.length+'%'}"></div>
+                      </div>
+                  </router-link>
+
+
+                  <label class="answer" v-for="answer in question.answers" :key="'answer'+answer.id" v-if="question.type==0 || question.type==2">
+                      <input type="radio" :name="'answer'+answer.id" :id="'answer'+answer.id" :value="answer.id" v-model="question.myAnswers[0]">
+                      <div class="answerName" :for="'answer'+answer.id" :class="{active: question.myAnswers[0]==answer.id}">{{answer.answer}}</div>
+                    <div class="chart" >
+                      <div class="section" v-for="(chart, cIndex) in n.users" :key="'question'+question.id+'chert'+cIndex" :style="{width: 100/n.users.length+'%'}"></div>
+                      <div class="chertLine" :style="{width: 100/n.users.length*answer.voted.length+'%'}"></div>
+                    </div>
+                  </label>
 
 
 
                   <label class="answer" v-for="answer in question.answers" :key="'answer'+answer.id" v-if="question.type==1">
                     <input type="checkbox" :name="'answer'+answer.id" :id="'answer'+answer.id" :value="answer.id" v-model="question.myAnswers">
                     <div class="answerName" :class="{active: question.myAnswers[question.myAnswers.indexOf(answer.id)]}">{{answer.answer}}</div>
-                    <div class="chart" :style="{width: 100/n.users.length*answer.voted.length+'%'}"></div>
+                    <div class="chart" >
+                      <div class="section" v-for="(chart, cIndex) in n.users" :key="'question'+question.id+'chert'+cIndex" :style="{width: 100/n.users.length+'%'}"></div>
+                      <div class="chertLine" :style="{width: 100/n.users.length*answer.voted.length+'%'}"></div>
+                    </div>
                   </label>
-
-
-
-
-                  <div class="answer">
-                      <router-link class="answerName" :to="{ path: `/profile/${n.authorId}/accept`}" v-if="question.type==2">Так</router-link>
+                  <div class="chartNum" >
+                    <div class="num">0</div>
+                    <div class="num" v-for="(chart, cnIndex) in n.users" :key="'question'+question.id+'chartNum'+cnIndex" :style="{width: 100/n.users.length+'%'}">{{cnIndex+1}}</div>
                   </div>
-                  <label class="answer" v-for="answer in question.answers" :key="'answer'+answer.id" v-if="question.type==2">
-                      <input type="radio" :name="'answer'+answer.id" :id="'answer'+answer.id" :value="answer.id" v-model="question.myAnswers[0]">
-                      <div class="answerName" :for="'answer'+answer.id" :class="{active: question.myAnswers[0]==answer.id}">{{answer.answer}}</div>
-                      <div class="chart" :style="{width: 100/n.users.length*answer.voted.length+'%'}"></div>
-                  </label>
-                  <div class="answer">
-                    <div class="answerName">Не голосували</div>
-                    <div class="chart" :style="{width: 100/n.users.length+'%'}"></div>
-                  </div>
-                  <div @click="setAnswer(question.myAnswers, question.id, nIndex, qIndex)">Проголосувати</div>
+
+
+                  <div class="toVote" @click="setAnswer(question.myAnswers, question.id, nIndex, qIndex)">Проголосувати</div>
                 </div>
               </div>
             </div>
@@ -170,16 +177,27 @@ export default {
   padding: 1%;
   box-sizing: border-box;
 }
+#NewsArticle .newsBlock > .questions > .question > .answers::after {
+  display: block;
+  content: "";
+  clear: both;
+}
 #NewsArticle .newsBlock > .questions > .question > .answers > .answer {
   display: block;
   cursor: pointer;
-  margin-bottom: 2px;
+  width: 96%;
   position: relative;
+  margin-left: 2%;
+  margin-right: 2%;
   box-sizing: border-box;
 }
 
 #NewsArticle .newsBlock > .questions > .question > .answers > .answer > input {
-  display: none;
+  /* display: none; */
+  z-index: 2;
+  position: absolute;
+  top: 8px;
+  left: 2px;
 }
 #NewsArticle
   .newsBlock
@@ -191,17 +209,67 @@ export default {
   display: block;
   padding: 0.5%;
   box-sizing: border-box;
-  color: rgb(50, 50, 50);
+  color: rgb(91, 91, 91);
   font-size: 1.1em;
   font-weight: bold;
   position: relative;
 }
 #NewsArticle .newsBlock > .questions > .question > .answers > .answer > .chart {
-  background: rgb(0, 0, 0);
+  /* background: rgb(0, 0, 0); */
   height: 100%;
+  width: 100%;
   position: absolute;
   top: 0;
-  opacity: 0.1;
+  float: left;
+  z-index: 1;
+}
+#NewsArticle
+  .newsBlock
+  > .questions
+  > .question
+  > .answers
+  > .answer
+  > .chart
+  > .section {
+  float: left;
+  height: 100%;
+  border-right: 1px solid black;
+  padding: 0.5%;
+  box-sizing: border-box;
+}
+#NewsArticle
+  .newsBlock
+  > .questions
+  > .question
+  > .answers
+  > .answer
+  > .chart
+  > .section:first-child {
+  border-left: 1px solid black;
+}
+#NewsArticle
+  .newsBlock
+  > .questions
+  > .question
+  > .answers
+  > .answer
+  > .chart
+  > .chertLine {
+  height: calc(100% - 2px);
+  margin-top: 1px;
+  margin-bottom: 1px;
+  background: silver;
+}
+#NewsArticle
+  .newsBlock
+  > .questions
+  > .question
+  > .answers
+  > .answer
+  > .answerName {
+  /* background: rgb(228, 228, 228); */
+  z-index: 2;
+  margin-left: 12px;
 }
 #NewsArticle
   .newsBlock
@@ -209,8 +277,18 @@ export default {
   > .question
   > .answers
   > .answer:hover
-  > .answerName {
+  > .chart {
   background: rgb(228, 228, 228);
+}
+#NewsArticle
+  .newsBlock
+  > .questions
+  > .question
+  > .answers
+  > .answer:hover
+  > .chart
+  > .chertLine {
+  background: rgb(160, 160, 160);
 }
 
 #NewsArticle
@@ -220,6 +298,41 @@ export default {
   > .answers
   > .answer
   > .active {
-  color: rgb(85, 255, 0);
+  color: rgb(0, 0, 0);
+}
+#NewsArticle .newsBlock > .questions > .question > .answers > .chartNum {
+  float: left;
+  width: 96%;
+  margin-left: 2%;
+  margin-right: 2%;
+  white-space: nowrap;
+  position: relative;
+  border-top: 1px solid black;
+  box-sizing: border-box;
+}
+#NewsArticle .newsBlock > .questions > .question > .answers > .chartNum > .num {
+  display: inline-block;
+  /* float: left; */
+  box-sizing: border-box;
+  text-align: right;
+  position: relative;
+  left: -8px;
+}
+#NewsArticle
+  .newsBlock
+  > .questions
+  > .question
+  > .answers
+  > .chartNum
+  > .num:first-child {
+  left: -4px;
+}
+#NewsArticle .newsBlock > .questions > .question > .answers > .toVote {
+  cursor: pointer;
+  padding: 1%;
+  float: right;
+  background: linear-gradient(rgb(90, 142, 0), rgb(190, 200, 0));
+  color: white;
+  margin-top: 2%;
 }
 </style>
