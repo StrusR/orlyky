@@ -25,6 +25,8 @@
         <select name="day" v-model="selectedTo[2]">
             <option v-for="day in daysTo" :key="'monthTo'+day" :value="day">{{day}}</option>
         </select>
+        днів: {{daysTogether}} <br>
+        <!-- {{selectedFullDateTo}} <br> {{selectedFullDateFrom}} -->
     </div>
 </template>
 
@@ -47,6 +49,8 @@ var CreateEventData = {
   yearsTo: [],
   monthsTo: [],
   daysTo: [],
+
+  daysTogether: "",
 
   monthUa: [
     "Січень",
@@ -174,6 +178,11 @@ export default {
       if (repM) {
         this.selectedFrom[2] = this.daysFrom[0];
       }
+
+      this.selectedFullDateFrom.setFullYear(this.selectedFrom[0]);
+      this.selectedFullDateFrom.setMonth(this.selectedFrom[1]);
+      this.selectedFullDateFrom.setDate(this.selectedFrom[2]);
+
       this.possibleDateTo = new Date();
       this.possibleDateTo.setFullYear(this.selectedFullDateFrom.getFullYear());
       this.possibleDateTo.setMonth(this.selectedFullDateFrom.getMonth() + 1);
@@ -195,6 +204,7 @@ export default {
     updateSelectTo: function() {
       this.selectedFullDateTo.setFullYear(this.selectedTo[0]);
       this.selectedFullDateTo.setMonth(this.selectedTo[1]);
+      this.selectedFullDateTo.setDate(this.selectedTo[2]);
 
       this.monthsTo = [];
       this.daysTo = [];
@@ -238,7 +248,7 @@ export default {
             this.selectedFullDateFrom.getFullYear() !=
             this.selectedFullDateTo.getFullYear()
           ) {
-            if (this.possibleDateTo.getDate() >= d) {
+            if (this.possibleDateTo.getDate() > d) {
               this.daysTo.push(d);
             }
           } else {
@@ -247,7 +257,7 @@ export default {
             }
           }
         } else {
-          if (this.possibleDateTo.getDate() >= d) {
+          if (this.possibleDateTo.getDate() > d) {
             this.daysTo.push(d);
           }
         }
@@ -281,6 +291,13 @@ export default {
       if (repM) {
         this.selectedTo[2] = this.daysTo[0];
       }
+
+      this.selectedFullDateTo.setFullYear(this.selectedTo[0]);
+      this.selectedFullDateTo.setMonth(this.selectedTo[1]);
+      this.selectedFullDateTo.setDate(this.selectedTo[2]);
+
+      this.daysTogether = this.selectedFullDateTo - this.selectedFullDateFrom;
+      this.daysTogether = this.daysTogether / 24 / 60 / 60 / 1000 + 1;
     }
   }
 };
