@@ -24,7 +24,7 @@
 </template>
 
 <script>
-var Friends = require("../../../globals/Friends.vue");
+var Friends = require("../Article/components/Friends.vue");
 
 export default {
   name: "Article",
@@ -41,11 +41,6 @@ export default {
 </script>
 
 <style scoped>
-#OrlykArticle {
-  box-shadow: -2px 2px 5px 0px rgb(60, 0, 0);
-  height: 100%;
-  margin-top: 7%;
-}
 #OrlykArticle .orlykBlock {
   box-shadow: -2px 2px 5px 0px rgb(60, 0, 0);
 }

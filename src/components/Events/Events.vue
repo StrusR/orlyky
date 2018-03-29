@@ -1,5 +1,5 @@
 <template>
-    <div id="News">
+    <div id="Events">
         <section-header :myData="myData"></section-header>
         <section-article></section-article>
     </div>
@@ -7,16 +7,16 @@
 
 <script>
 var Header = require("../globals/Header/Header.vue");
-var Article = require("../News/components/Article/Article.vue");
+var Article = require("../Events/components//Article/Article.vue");
 
-var NewsData = {
+var EventsData = {
   myId: "",
   myAccessRights: "",
   myData: ""
 };
 
 export default {
-  name: "News",
+  name: "Events",
   components: {
     "section-header": Header,
     "section-article": Article
@@ -25,7 +25,7 @@ export default {
     this.updateMyProfile();
   },
   data: function() {
-    return NewsData;
+    return EventsData;
   },
   watch: {
     myId: function() {
@@ -48,9 +48,9 @@ export default {
         dataType: "json",
 
         success: function(data) {
-          NewsData.myId = data.id;
-          NewsData.myAccessRights = data.accessRights;
-          NewsData.myData = data;
+          EventsData.myId = data.id;
+          EventsData.myAccessRights = data.accessRights;
+          EventsData.myData = data;
         },
 
         error: function() {

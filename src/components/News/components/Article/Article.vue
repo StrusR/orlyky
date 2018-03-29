@@ -5,7 +5,7 @@
             <div class="topic">
               <p v-if="n.type == 'newProfile'"><router-link :to="{ name: 'profile', params: { id: n.authorId }}">{{n.authorSurname}} {{n.authorName}} {{n.authorPatronymic}}</router-link> зареєструвався.</p>
               <p v-else>{{n.topic}}</p>
-              <div class="isCommand" title="Бачить лише провід куреня" v-if="n.accessRights=='command'"></div>
+              <div class="isCommand" title="Поширино лише для проводу куреня" v-if="n.accessRights=='command'"></div>
             </div>
             <div class="description" v-if="n.description != ''">
               <p>{{n.description}}</p>
@@ -55,10 +55,13 @@
             </div>
           </div>
         </div>
+        <section-create class="rightCol"></section-create>
     </article>
 </template>
 
 <script>
+var CreateNews = require("../Article/components/CreateNews.vue");
+
 var NewsData = {
   news: "",
   dataQuestion: ""
@@ -66,6 +69,9 @@ var NewsData = {
 
 export default {
   name: "NewsArticle",
+  components: {
+    "section-create": CreateNews
+  },
   data: function() {
     return NewsData;
   },
@@ -130,12 +136,6 @@ export default {
 </script>
 
 <style scoped>
-#NewsArticle {
-  box-shadow: -2px 2px 5px 0px rgb(60, 0, 0);
-  height: 100%;
-  margin-top: 7%;
-  z-index: 100;
-}
 #NewsArticle .newsBlock {
   margin-bottom: 3%;
   box-shadow: -2px 2px 5px 0px rgb(60, 0, 0);
@@ -209,7 +209,7 @@ export default {
   display: block;
   padding: 0.5%;
   box-sizing: border-box;
-  color: rgb(91, 91, 91);
+  color: rgb(19, 41, 130);
   font-size: 1.1em;
   font-weight: bold;
   position: relative;
@@ -233,7 +233,7 @@ export default {
   > .section {
   float: left;
   height: 100%;
-  border-right: 1px solid black;
+  border-right: 1px solid silver;
   padding: 0.5%;
   box-sizing: border-box;
 }
@@ -255,10 +255,12 @@ export default {
   > .answer
   > .chart
   > .chertLine {
-  height: calc(100% - 2px);
-  margin-top: 1px;
-  margin-bottom: 1px;
-  background: silver;
+  height: calc(100% - 4px);
+  margin-top: 2px;
+  margin-bottom: 2px;
+  background: linear-gradient(rgb(143, 165, 255), rgb(100, 131, 255));
+  z-index: 10;
+  position: relative;
 }
 #NewsArticle
   .newsBlock
@@ -288,7 +290,7 @@ export default {
   > .answer:hover
   > .chart
   > .chertLine {
-  background: rgb(160, 160, 160);
+  background: linear-gradient(rgb(134, 159, 255), rgb(66, 96, 219));
 }
 
 #NewsArticle

@@ -3,6 +3,9 @@
         <router-link :to="{ name: 'profile', params: { id: myData.id }}">{{myData.surname}} {{myData.name}}</router-link>
         <a @click="SignOut">Вихід</a>
         <router-link :to="{ name: 'news'}">Новини</router-link>
+        <a>Скарбничка</a>
+        <router-link :to="{ name: 'events'}">Події</router-link>
+        <a>Друзі</a>
     </div>
 </template>
 
