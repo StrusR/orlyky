@@ -1,0 +1,6 @@
+[03-Apr-2018 02:29:55 Europe/Kiev] PHP Fatal error:  Call to a member function fetch_assoc() on a non-object in /home/corivkac/public_html/orlyky/server/get/dishes.php on line 22
+[03-Apr-2018 02:30:02 Europe/Kiev] PHP Fatal error:  Call to a member function fetch_assoc() on a non-object in /home/corivkac/public_html/orlyky/server/get/dishes.php on line 22
+[03-Apr-2018 02:30:40 Europe/Kiev] PHP Fatal error:  Call to a member function fetch_assoc() on a non-object in /home/corivkac/public_html/orlyky/server/get/dishes.php on line 22
+[03-Apr-2018 02:31:45 Europe/Kiev] PHP Fatal error:  Call to a member function fetch_assoc() on a non-object in /home/corivkac/public_html/orlyky/server/get/dishes.php on line 22
+[03-Apr-2018 02:32:40 Europe/Kiev] PHP Parse error:  syntax error, unexpected T_CONSTANT_ENCAPSED_STRING in /home/corivkac/public_html/orlyky/server/get/dishes.php on line 23
+[03-Apr-2018 02:33:08 Europe/Kiev] PHP Fatal error:  Call to a member function fetch_assoc() on a non-object in /home/corivkac/public_html/orlyky/server/get/dishes.php on line 22

@@ -81,7 +81,6 @@ export default {
     }
   },
   created: function() {
-    this.news = "";
     $.ajax({
       url: "../orlyky/server/get/news.php",
       type: "POST",

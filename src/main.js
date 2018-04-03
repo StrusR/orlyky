@@ -9,17 +9,17 @@ Vue.use(VueRouter)
 var Home = require("./components/Home.vue");
 var RegLog = require("./components/RegLog/RegLog.vue");
 
-
 var Orlyk = require("./components/Orlyk/Orlyk.vue");
 var Accept = require("./components/Orlyk/components/Article/components/Accept.vue");
 var Regect = require("./components/Orlyk/components/Article/components/Regect.vue");
 
-
 var News = require("./components/News/News.vue");
-
 
 var Events = require("./components/Events/Events.vue");
 
+var Ev = require("./components/Ev/Ev.vue");
+var eventMain = require("./components/Ev/components/eventMain.vue");
+var eventMenu = require("./components/Ev/components/eventMenu.vue");
 
 var Statement = require("./components/Statement/Statement.vue");
 
@@ -46,6 +46,23 @@ var router = new VueRouter({
     },
     { path: '/news', name: 'news', component: News },
     { path: '/events', name: 'events', component: Events },
+    {
+      path: '/event/:id',
+      name: 'event',
+      component: Ev,
+      children: [
+        {
+          path: '/',
+          name: 'eventMain',
+          component: eventMain
+        },
+        {
+          path: 'menu',
+          name: 'eventMenu',
+          component: eventMenu
+        }
+      ]
+    },
     { path: '/statement', name: 'Statement', component: Statement },
     { path: '*', redirect: "/" },
     { path: '/#/', redirect: "/" }
