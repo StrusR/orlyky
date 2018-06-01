@@ -20,19 +20,30 @@ var Events = require("./components/Events/Events.vue");
 var Ev = require("./components/Ev/Ev.vue");
 var eventMain = require("./components/Ev/components/eventMain.vue");
 var eventMenu = require("./components/Ev/components/eventMenu.vue");
+var eventInventory = require("./components/Ev/components/eventInventory.vue");
+
+var Dishes = require("./components/Dishes/Dishes.vue");
+var Ingredients = require("./components/Ingredients/Ingredients.vue");
 
 var Statement = require("./components/Statement/Statement.vue");
 
+
 var router = new VueRouter({
-  routes: [
-    { path: '/', name: 'home', component: Home },
-    { path: '/RegLog', name: 'RegLog', component: RegLog },
+  routes: [{
+      path: '/',
+      name: 'home',
+      component: Home
+    },
+    {
+      path: '/RegLog',
+      name: 'RegLog',
+      component: RegLog
+    },
     {
       path: '/profile/:id',
       name: 'profile',
       component: Orlyk,
-      children: [
-        {
+      children: [{
           path: 'accept',
           name: 'accept',
           component: Accept
@@ -44,14 +55,21 @@ var router = new VueRouter({
         }
       ]
     },
-    { path: '/news', name: 'news', component: News },
-    { path: '/events', name: 'events', component: Events },
+    {
+      path: '/news',
+      name: 'news',
+      component: News
+    },
+    {
+      path: '/events',
+      name: 'events',
+      component: Events
+    },
     {
       path: '/event/:id',
       name: 'event',
       component: Ev,
-      children: [
-        {
+      children: [{
           path: '/',
           name: 'eventMain',
           component: eventMain
@@ -60,15 +78,43 @@ var router = new VueRouter({
           path: 'menu',
           name: 'eventMenu',
           component: eventMenu
+        },
+        {
+          path: 'inventory',
+          name: 'eventInventory',
+          component: eventInventory
         }
       ]
     },
-    { path: '/statement', name: 'Statement', component: Statement },
-    { path: '*', redirect: "/" },
-    { path: '/#/', redirect: "/" }
+    {
+      path: '/dishes',
+      name: 'dishes',
+      component: Dishes
+    },
+    {
+      path: '/ingredients',
+      name: 'ingredients',
+      component: Ingredients
+    },
+    {
+      path: '/statement/:id',
+      name: 'statement',
+      component: Statement
+    },
+    {
+      path: '*',
+      redirect: "/"
+    },
+    {
+      path: '/#/',
+      redirect: "/"
+    }
   ],
   scrollBehavior(to, from, savedPosition) {
-    return { x: 0, y: 0 }
+    return {
+      x: 0,
+      y: 0
+    }
   }
 });
 

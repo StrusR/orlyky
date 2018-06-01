@@ -1,0 +1,9 @@
+[03-Apr-2018 03:51:43 Europe/Kiev] PHP Warning:  json_decode() expects parameter 1 to be string, array given in /home/corivkac/public_html/orlyky/server/set/changeDishes.php on line 14
+[03-Apr-2018 03:51:54 Europe/Kiev] PHP Warning:  json_decode() expects parameter 1 to be string, array given in /home/corivkac/public_html/orlyky/server/set/changeDishes.php on line 14
+[03-Apr-2018 03:53:04 Europe/Kiev] PHP Warning:  json_decode() expects parameter 1 to be string, array given in /home/corivkac/public_html/orlyky/server/set/changeDishes.php on line 14
+[03-Apr-2018 03:53:36 Europe/Kiev] PHP Warning:  json_decode() expects parameter 1 to be string, array given in /home/corivkac/public_html/orlyky/server/set/changeDishes.php on line 14
+[20-Apr-2018 04:06:38 Europe/Kiev] PHP Fatal error:  Cannot use object of type stdClass as array in /home/corivkac/public_html/orlyky/server/set/changeDish.php on line 27
+[20-Apr-2018 04:13:16 Europe/Kiev] PHP Fatal error:  Cannot use object of type stdClass as array in /home/corivkac/public_html/orlyky/server/set/changeDish.php on line 27
+[20-Apr-2018 04:15:07 Europe/Kiev] PHP Fatal error:  Cannot use object of type stdClass as array in /home/corivkac/public_html/orlyky/server/set/changeDish.php on line 30
+[20-Apr-2018 04:17:10 Europe/Kiev] PHP Fatal error:  Cannot use object of type stdClass as array in /home/corivkac/public_html/orlyky/server/set/changeDish.php on line 30
+[20-Apr-2018 18:27:30 Europe/Kiev] PHP Parse error:  syntax error, unexpected ',' in /home/corivkac/public_html/orlyky/server/set/addIngredient.php on line 26

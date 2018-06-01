@@ -49,7 +49,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .Links a {
   float: right;
   color: white;

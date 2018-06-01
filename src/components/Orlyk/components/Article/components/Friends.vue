@@ -52,14 +52,14 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 #Friends {
   height: 100%;
 }
 #Friends .sort {
   width: 100%;
   height: 100px;
-  background: linear-gradient(rgb(128, 0, 0) 20%, rgb(60, 0, 0));
+  background: linear-gradient(rgb(103, 122, 154) 20%, rgb(53, 53, 53));
   color: white;
   top: 0;
 }

@@ -134,15 +134,15 @@ export default {
 // });
 </script>
 
-<style scoped>
+<style>
 #NewsArticle .newsBlock {
   margin-bottom: 3%;
-  box-shadow: -2px 2px 5px 0px rgb(60, 0, 0);
+  box-shadow: -2px 2px 5px 0px black;
 }
 #NewsArticle .newsBlock > .topic {
   width: 100%;
   height: 100px;
-  background: linear-gradient(rgb(128, 0, 0) 20%, rgb(60, 0, 0));
+  background: linear-gradient(rgb(103, 122, 154) 20%, rgb(53, 53, 53));
   color: white;
   position: relative;
 }

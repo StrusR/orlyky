@@ -71,10 +71,10 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 #Accept {
   background: white;
-  box-shadow: -2px 2px 5px 0px rgb(60, 0, 0);
+  box-shadow: -2px 2px 5px 0px black;
   position: fixed;
   top: 10%;
   left: 25%;
@@ -82,7 +82,7 @@ export default {
   z-index: 2;
 }
 #Accept .minHeader {
-  background: linear-gradient(rgb(128, 0, 0) 20%, rgb(60, 0, 0));
+  background: linear-gradient(rgb(103, 122, 154) 20%, rgb(53, 53, 53));
   width: 100%;
   padding: 1%;
   box-sizing: border-box;
@@ -103,7 +103,7 @@ export default {
 }
 #Accept .content .radio a {
   cursor: pointer;
-  box-shadow: -2px 2px 5px 0px rgb(60, 0, 0);
+  box-shadow: -2px 2px 5px 0px black;
   margin-top: 1%;
   width: 30%;
 }
@@ -127,7 +127,7 @@ export default {
 }
 #Accept .content .radio h4 {
   text-align: center;
-  background: linear-gradient(rgb(128, 0, 0) 20%, rgb(60, 0, 0));
+  background: linear-gradient(rgb(103, 122, 154) 20%, rgb(53, 53, 53));
   padding: 1%;
   box-sizing: border-box;
   color: white;
@@ -159,7 +159,7 @@ export default {
   background: linear-gradient(rgb(0, 108, 0) 20%, rgb(0, 121, 0));
 }
 #Accept .content .btn a:first-child {
-  background: linear-gradient(rgb(128, 0, 0) 20%, rgb(60, 0, 0));
+  background: linear-gradient(rgb(103, 122, 154) 20%, rgb(53, 53, 53));
 }
 #Accept .content .btn a:first-child:hover {
   background: linear-gradient(rgb(152, 0, 0) 20%, rgb(104, 0, 0));

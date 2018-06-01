@@ -26,46 +26,74 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $w = 0;
             while (($all_dayTimes = $data_server_dayTimes->fetch_assoc()) != false) {
                 $SuccessReturn['days'][$q]['times'][$w] = $all_dayTimes;
+
                 $data_server_menuDishes = $mysqli -> query("SELECT * FROM `menuDishes` WHERE `dayTimesId` = '".$all_dayTimes['id']."'");
+                $e  = 0;
                 while (($all_menuDishes = $data_server_menuDishes->fetch_assoc()) != false) {
                     $data_server_dishes = $mysqli -> query("SELECT * FROM `dishes` WHERE `id` = '".$all_menuDishes['dishId']."' && `type` = 'breakfast'");
-                    $e = 0;
                     while (($all_dishes = $data_server_dishes->fetch_assoc()) != false) {
                         $SuccessReturn['days'][$q]['times'][$w]['dishes']['breakfasts'][$e] = $all_dishes;
                         $e++;
                     };
+                };
+                $data_server_menuDishes = $mysqli -> query("SELECT * FROM `menuDishes` WHERE `dayTimesId` = '".$all_dayTimes['id']."'");
+                $e  = 0;
+                while (($all_menuDishes = $data_server_menuDishes->fetch_assoc()) != false) {
                     $data_server_dishes = $mysqli -> query("SELECT * FROM `dishes` WHERE `id` = '".$all_menuDishes['dishId']."' && `type` = 'firstDish'");
-                    $e = 0;
                     while (($all_dishes = $data_server_dishes->fetch_assoc()) != false) {
                         $SuccessReturn['days'][$q]['times'][$w]['dishes']['firstDishes'][$e] = $all_dishes;
                         $e++;
                     };
+                };
+                $data_server_menuDishes = $mysqli -> query("SELECT * FROM `menuDishes` WHERE `dayTimesId` = '".$all_dayTimes['id']."'");
+                $e  = 0;
+                while (($all_menuDishes = $data_server_menuDishes->fetch_assoc()) != false) {
                     $data_server_dishes = $mysqli -> query("SELECT * FROM `dishes` WHERE `id` = '".$all_menuDishes['dishId']."' && `type` = 'mainDish'");
-                    $e = 0;
                     while (($all_dishes = $data_server_dishes->fetch_assoc()) != false) {
                         $SuccessReturn['days'][$q]['times'][$w]['dishes']['mainDishes'][$e] = $all_dishes;
                         $e++;
                     };
+                };
+                $data_server_menuDishes = $mysqli -> query("SELECT * FROM `menuDishes` WHERE `dayTimesId` = '".$all_dayTimes['id']."'");
+                $e  = 0;
+                while (($all_menuDishes = $data_server_menuDishes->fetch_assoc()) != false) {
                     $data_server_dishes = $mysqli -> query("SELECT * FROM `dishes` WHERE `id` = '".$all_menuDishes['dishId']."' && `type` = 'garnish'");
-                    $e = 0;
                     while (($all_dishes = $data_server_dishes->fetch_assoc()) != false) {
                         $SuccessReturn['days'][$q]['times'][$w]['dishes']['garnishes'][$e] = $all_dishes;
                         $e++;
                     };
+                };
+                $data_server_menuDishes = $mysqli -> query("SELECT * FROM `menuDishes` WHERE `dayTimesId` = '".$all_dayTimes['id']."'");
+                $e  = 0;
+                while (($all_menuDishes = $data_server_menuDishes->fetch_assoc()) != false) {
                     $data_server_dishes = $mysqli -> query("SELECT * FROM `dishes` WHERE `id` = '".$all_menuDishes['dishId']."' && `type` = 'salad'");
-                    $e = 0;
                     while (($all_dishes = $data_server_dishes->fetch_assoc()) != false) {
                         $SuccessReturn['days'][$q]['times'][$w]['dishes']['salads'][$e] = $all_dishes;
                         $e++;
                     };
+                };
+                $data_server_menuDishes = $mysqli -> query("SELECT * FROM `menuDishes` WHERE `dayTimesId` = '".$all_dayTimes['id']."'");
+                $e  = 0;
+                while (($all_menuDishes = $data_server_menuDishes->fetch_assoc()) != false) {
+                    $data_server_dishes = $mysqli -> query("SELECT * FROM `dishes` WHERE `id` = '".$all_menuDishes['dishId']."' && `type` = 'appetizer'");
+                    while (($all_dishes = $data_server_dishes->fetch_assoc()) != false) {
+                        $SuccessReturn['days'][$q]['times'][$w]['dishes']['appetizers'][$e] = $all_dishes;
+                        $e++;
+                    };
+                };
+                $data_server_menuDishes = $mysqli -> query("SELECT * FROM `menuDishes` WHERE `dayTimesId` = '".$all_dayTimes['id']."'");
+                $e  = 0;
+                while (($all_menuDishes = $data_server_menuDishes->fetch_assoc()) != false) {
                     $data_server_dishes = $mysqli -> query("SELECT * FROM `dishes` WHERE `id` = '".$all_menuDishes['dishId']."' && `type` = 'drink'");
-                    $e = 0;
                     while (($all_dishes = $data_server_dishes->fetch_assoc()) != false) {
                         $SuccessReturn['days'][$q]['times'][$w]['dishes']['drinks'][$e] = $all_dishes;
                         $e++;
                     };
+                };
+                $data_server_menuDishes = $mysqli -> query("SELECT * FROM `menuDishes` WHERE `dayTimesId` = '".$all_dayTimes['id']."'");
+                $e  = 0;
+                while (($all_menuDishes = $data_server_menuDishes->fetch_assoc()) != false) {
                     $data_server_dishes = $mysqli -> query("SELECT * FROM `dishes` WHERE `id` = '".$all_menuDishes['dishId']."' && `type` = 'sweet'");
-                    $e = 0;
                     while (($all_dishes = $data_server_dishes->fetch_assoc()) != false) {
                         $SuccessReturn['days'][$q]['times'][$w]['dishes']['sweets'][$e] = $all_dishes;
                         $e++;

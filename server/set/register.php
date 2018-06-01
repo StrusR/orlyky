@@ -83,10 +83,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
             $mysqli -> query("INSERT INTO `news` (`type`, `image`, `accessRights`, `date`, `authorId`) VALUES ('newProfile', 'false', 'command', '".$date."', '".$last_users_id."')");
             $last_news_id = $mysqli->insert_id;
-            // session_start();
-            // $_SESSION['id'] = $lastUserId;
-            // $SuccessReturn['id'] = $lastUserId;
-            // session_write_close();
+            session_start();
+            $_SESSION['id'] = $last_users_id;
+            $SuccessReturn['id'] = $last_users_id;
+            session_write_close();
 
             $mysqli -> query("INSERT INTO `questions` (`newsId`, `question`, `type`) VALUES ('".$last_news_id."', 'Цей юнак із вашого гуртка?', '2')");
             $last_questions_id = $mysqli->insert_id;

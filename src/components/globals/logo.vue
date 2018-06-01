@@ -10,7 +10,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 #Logo {
   float: left;
   width: 30%;

@@ -43,14 +43,15 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 #EventsArticle > .EventsBlock {
-  box-shadow: -2px 2px 5px 0px rgb(60, 0, 0);
+  margin-bottom: 1%;
+  box-shadow: -2px 2px 5px 0px black;
 }
 #EventsArticle > .EventsBlock > .banner {
   width: 100%;
   height: 100px;
-  background: linear-gradient(rgb(128, 0, 0) 20%, rgb(60, 0, 0));
+  background: linear-gradient(rgb(103, 122, 154) 20%, rgb(53, 53, 53));
   color: white;
   position: relative;
 }
